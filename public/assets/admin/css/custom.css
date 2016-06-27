@@ -1,0 +1,141 @@
+
+#sidebar-nav .nav li a.dropdown-toggle .drop-icon{
+    top: 0;
+    right: 0;
+    margin-top: 0;
+    bottom: 0;
+    width: 44px;
+    height: 44px;
+    padding-top: 16px;
+    text-align: center;
+    background: rgba(255,255,255,.1);
+    
+    opacity:0.3;
+}
+
+#sidebar-nav .nav li a.dropdown-toggle:hover .drop-icon{
+    opacity:1;
+}
+
+#sidebar-nav .nav>.open>.submenu>li>a.dropdown-toggle>.drop-icon{
+    margin-top: 0;
+    font-size: inherit;
+}
+
+#sidebar-nav .nav li .submenu>li>a{
+    height: 28px;
+    line-height: 18px;
+    padding-top: 10px;
+    padding-bottom : 21px;
+    padding-left: 46px;
+    box-shadow: none !important;
+    border-left: 4px solid transparent;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#sidebar-nav .nav>.open>.submenu>li>.submenu a{
+    padding-left: 66px;
+}
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu a{
+    padding-left: 86px;
+}
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu a{
+    padding-left: 106px;
+}
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu a{
+    padding-left: 126px;
+}
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu a{
+    padding-left: 146px;
+}
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu a{
+    padding-left: 166px;
+}
+
+#sidebar-nav .nav li .submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu,
+#sidebar-nav .nav>.open>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu>li>.submenu{
+    background: rgba(0,0,0,.07);
+}
+
+
+#sidebar-nav .active > a{
+    border-left: 4px solid #3498db !important;
+    background-color: #1a1d22 !important;
+}
+
+#header-navbar .nav>li>a:hover, #header-navbar .nav>li>a:focus, #header-navbar .nav .open>a, #header-navbar .nav .open>a:hover, #header-navbar .nav .open>a:focus{
+    background: rgba(0,0,0,.05);
+    color: #000;
+}
+
+#sidebar-nav .nav li .submenu>li>a:hover, #sidebar-nav .nav li .submenu>li>a.active{
+    background: #121418 !important;
+}
+
+#sidebar-nav .nav li .submenu{
+    padding: 0;
+}
+
+
+#sidebar-nav .submenu span{
+    padding-left: 15px;
+}
+#sidebar-nav .nav>li>a>span{
+    padding-left: 25px;
+}
+#sidebar-nav .nav>.open>.submenu>li>.submenu a:before{
+    display: none;
+}
+
+#nav-col, .navbar>.container .navbar-brand{
+    width: 320px;
+}
+
+#content-wrapper{
+    margin-left: 320px;
+}
+
+.container-login #content-wrapper{
+    margin: 0 !important;
+}
+
+
+.lang-container{
+    position: relative;
+    background: #eee;
+    padding: 5px;
+}
+
+.lang-switch-container{
+    position: absolute;
+    top: -30px;
+    right: 10px;
+}
+
+.lang-switch{
+    display: inline-block;
+    background: #f9f9f9;
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.lang-switch.active{
+    background: #eee;
+}
+
+.lang-content{
+    display: none;
+}
+
+.lang-content.active{
+    display: block;
+}
