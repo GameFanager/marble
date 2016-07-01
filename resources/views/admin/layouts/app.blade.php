@@ -15,7 +15,7 @@
 
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Titillium+Web:200,300,400' rel='stylesheet' type='text/css'>
 
-        <script type="text/javascript" src="/www_admin/js/jquery.js"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/jquery.js') }}"></script>
 	</head>
     <body class="x-theme-blue">
         
@@ -84,7 +84,11 @@
                     <section id="col-left" class="col-left-nano">
                         <div id="col-left-inner" class="col-left-nano-content">
                             <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
-                                TREE
+
+
+                                @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true))
+
+
                             </div>
                         </div>
                     </section>
@@ -99,6 +103,28 @@
                         <div class="col-lg-3">
                             <h1>&nbsp;</h2>
                             
+                            @if( isset($node) )
+                                <div class="main-box clearfix profile-box-menu">
+                                    <div class="main-box-body clearfix">
+                                        <div class="profile-box-header green-bg clearfix" style="padding:0 15px 15px">
+                                            <h2>Name</h2>
+                                            <div class="job-position">
+                                                Name
+                                            </div>
+                                        </div>
+                                        <div class="profile-box-content clearfix">
+                                            <ul class="menu-items">
+                                                <li>
+                                                    <a href="{{url("admin/node/add/" . $node->id)}}" class="clearfix">
+                                                        <i class="fa fa-plus fa-lg"></i> Unterobjekt einfügen
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif 
+
                         </div>
                     </div>
                 </div>
@@ -106,12 +132,12 @@
         </div>
         
 
-        <script type="text/javascript" src="/www_admin/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/www_admin/js/bootstrap.datepicker.js"></script>
-        <script type="text/javascript" src="/www_admin/js/scripts.js"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.datepicker.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/scripts.js') }}"></script>
         
 
-        <script type="text/javascript" src="/www_admin/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/ckeditor/ckeditor.js') }}"></script>
         <script type="text/javascript">
     		
             
