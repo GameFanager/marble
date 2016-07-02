@@ -71,25 +71,44 @@
         });
         
         $(".object-browser-list").click(function(){
-            var id = $(this).data("modal-id"),
-                inputId = $(this).data("input-id"),
-                nameId = $(this).data("input-name"),
-                $modal = $("#" + id);
+            var attributeId = $(this).data("attribute-id"),
+                locale = $(this).data("locale"),
+                $modal = $("#edit-modal-" + attributeId + "-" + locale);
                 
             $modal.modal("show");
-            
-            $modal.find("[data-node-id]").click(function(){
+        });
+
+        $(".object-browser-list").each(function(){
+            var attributeId = $(this).data("attribute-id"),
+                locale = $(this).data("locale"),
+                $modal = $("#edit-modal-" + attributeId + "-" + locale),
+                $inputContainer = $("#object-relation-list-inputs-" + attributeId + "-" + locale),
+                $nameContainer = $("#object-relation-list-names-" + attributeId + "-" + locale);
+                
+            $modal.find("[data-node-id]").on("click", function(){
                 var nodeId = $(this).data("node-id"),
-                    nodeName = $(this).data("node-name");
+                    nodeName = $(this).data("node-name"),
+                    index = $inputContainer.find("input").length + 1;
                 
-                $("#" + nameId).text(nodeName);
-                $("#" + inputId).val(nodeId);
+                $("#object-relation-list-empty-input-" + attributeId + "-" + locale).remove();
+                $("#object-relation-list-no-items-" + attributeId + "-" + locale).hide();
+
                 
-                $modal.parent().find(".object-browser-delete").show();
+                $inputContainer.append(
+                    '<input type="hidden" name="attributes[' + attributeId + '][' + locale + '][]" id="object-relation-list-input-' + attributeId + '-' + locale + '-' + index + '" value="' + nodeId + '" />'
+                );
+                $nameContainer.append(
+                    '<p id="object-relation-list-name-' + attributeId + '-' + locale + '-' + index + '">' +
+                        '<b>' + nodeName + '</b> ' +
+                        ' &nbsp; ' +
+                        '<b style="cursor:pointer;color:red;" class="object-browser-list-delete" data-attribute-id="' + attributeId + '" data-locale="' + locale + '" data-index="' + index + '">&times;</b>' +
+                    '</p>'
+                );
                 
                 $modal.modal("hide");
             });
         });
+
         
         $(".object-browser-delete").click(function(){
             var inputId = $(this).data("input-id"),
@@ -100,6 +119,23 @@
             $(this).hide();
         });
         
+        $(document.body).on("click", ".object-browser-list-delete", function(){
+            var attributeId = $(this).data("attribute-id"),
+                locale = $(this).data("locale"),
+                index = $(this).data("index"),
+                $input = $("#object-relation-list-input-" + attributeId + "-" + locale + "-" + index),
+                $name = $("#object-relation-list-name-" + attributeId + "-" + locale + "-" + index),
+                $parent = $input.parent();
+            
+            if( $parent.find("input").length == 1 ){
+                $("#object-relation-list-no-items-" + attributeId + "-" + locale).show();
+                $parent.append('<input id="object-relation-list-empty-input-' + attributeId + '-' + locale + '" type="hidden" name="attributes[' + attributeId + '][' + locale + ']" value="" />');
+            }
+
+            $input.remove();
+            $name.remove();
+        });
+
         $(".lang-switch").click(function(){
             var $parent = $(this).parent().parent(),
                 lang = $(this).data("lang");

@@ -3,6 +3,7 @@
 <div id="selectbox-config-<{{$attribute->id}}-{{$locale}}" style="background: #f4f4f4;padding: 15px;border-radius: 3px">
     <p>
         <b id="object-relation-name-{{$attribute->id}}-{{$locale}}">{{ $attribute->value[$locale] ? $attribute->processedValue[$locale]->attributes->name->value[$locale] : "Kein Objekt ausgewählt!" }}</b> 
+        &nbsp;
         <b style="cursor:pointer;color:red; {{ ! $attribute->value[$locale] ? "display:none" : "" }}" class="object-browser-delete" data-input-name="object-relation-name-{{$attribute->id}}-{{$locale}}" data-input-id="object-relation-{{$attribute->id}}-{{$locale}}" >&times;</b>
     </p>
     <a href="javascript:;" class="btn btn-default btn-xs object-browser" data-modal-id="edit-modal-{{$attribute->id}}-{{$locale}}" data-input-id="object-relation-{{$attribute->id}}-{{$locale}}" data-input-name="object-relation-name-{{$attribute->id}}-{{$locale}}">Objekt auswählen...</a>
@@ -16,7 +17,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav" style="background:#2c3e50">
-                        @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => true))
+                        @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => true, "selectedNode" => $attribute->value[$locale]))
                     </div>
                 </div>
                 <div class="modal-footer">

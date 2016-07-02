@@ -6,7 +6,7 @@
 @endif
 
     @foreach($nodes as $node)
-        <li class="open">
+        <li class="open {{ $node->id == $selectedNode ? "active" : ""}}">
             @if( $isModal )
                 <a href="javascript:;" class="{{ count($node->children) ? "dropdown-toggle" : "" }}" data-node-id="{{$node->id}}" data-node-name="{{$node->name}}">
             @else

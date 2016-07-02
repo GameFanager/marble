@@ -86,7 +86,7 @@
                             <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
 
 
-                                @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => false))
+                                @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => false, "selectedNode" => isset($node) ? $node->id : -1))
 
 
                             </div>

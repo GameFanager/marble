@@ -36,6 +36,19 @@ class NodeController extends Controller
         Node::destroy($id);
 
         $nodeClassAttributes = NodeClassAttribute::whereNodeId($id);
+
+
+        /* DDFDF
+
+
+
+
+
+        GEHT NIT
+
+
+
+        **/
         foreach($nodeClassAttributes as $nodeClassAttribute)
             NodeClassAttribute::destroy($nodeClassAttribute->id);
 
@@ -134,9 +147,13 @@ class NodeController extends Controller
                 }
 
                 if( $nodeClassAttribute->classAttribute->type->serialized_value ){
-                    $value = serialize($value);
+                    if( $value === "" ){
+                        $value = $nodeClassAttribute->classAttribute->type->default_value;
+                    }else{
+                        $value = serialize($value);
+                    }
                 }
-                
+
                 $nodeTranslation->value = $value;
                 $nodeTranslation->save();
             }
