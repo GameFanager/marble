@@ -161,6 +161,7 @@
     padding: 0 20px;
     font-size: 0.875em;
     color: #344644;
+    cursor: move;
 }
 .profile-box-menu .profile-box-content .menu-items li.more i{
     width: 24px;
@@ -192,4 +193,5 @@
     opacity: 0;
     -webkit-transition: all 0.15s ease-in-out 0s;
     transition: all 0.15s ease-in-out 0s;
+    cursor: pointer;
 }

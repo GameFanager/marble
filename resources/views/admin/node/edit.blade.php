@@ -17,9 +17,7 @@
                 <div class="main-box">
                     <header class="main-box-header clearfix">
                         @if($classAttributeGroup->group)
-                            <h2>{{$classAttributeGroup->group->name}}</h2>
-                        @else
-                            <h2></h2>
+                            <h2><b>{{$classAttributeGroup->group->name}}</b></h2>
                         @endif
                     </header>
                     <div class="main-box-body clearfix">
@@ -58,19 +56,12 @@
             @endforeach
 
 
-            <div class="main-box">
-                <header class="main-box-header clearfix">
-                </header>
-                <div class="main-box-body clearfix">
-                    <div class="form-group pull-left">
-                    </div>
-                    <div class="form-group pull-right">
-                        <a href="{{url("/admin/dashboard")}}" class="btn btn-primary">Abbrechen</a>
-                        <input type="submit" class="btn btn-success" value="Speichern" />
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+            <div class="form-group pull-right">
+                <a href="{{url("/admin/dashboard")}}" class="btn btn-primary">Abbrechen</a>
+                <input type="submit" class="btn btn-success" value="Speichern" />
             </div>
+            <div class="clearfix"></div>
+            <br /><br /><br />
         @endif
     </form>
 

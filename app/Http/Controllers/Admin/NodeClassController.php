@@ -152,6 +152,25 @@ class NodeClassController extends Controller
         $data["nodeClass"] = $nodeClass;
         $data["attributes"] = $attributes;
         $data["classAttributeGroups"] = $classAttributeGroups;
+
+        $data["groupedClassAttributes"] = array();
+
+        foreach($nodeClass->attributes as $attribute){
+            $classAttributeGroup = ClassAttributeGroup::find($attribute->group_id);
+            $sortKey = $classAttributeGroup ? $classAttributeGroup->sort_order : 9999;
+
+            if( ! isset($data["groupedClassAttributes"][$sortKey]) ){
+                $data["groupedClassAttributes"][$sortKey] = (object)array(
+                    "group" => $classAttributeGroup,
+                    "items" => array()
+                );
+            }
+
+            $data["groupedClassAttributes"][$sortKey]->items[] = $attribute;
+        }
+
+        ksort($data["groupedClassAttributes"]);
+
         
         return view("/admin/nodeclass/attributes", $data);
     }
@@ -165,7 +184,7 @@ class NodeClassController extends Controller
         $classAttribute->class_id = $id;
         $classAttribute->attribute_id = $request->input("type");
         $classAttribute->named_identifier = "new_attribute";
-        $classAttribute->sort_order = count($classAttributes) * 10;
+        $classAttribute->sort_order = count($classAttributes);
         $classAttribute->save();
 
         $nodes = Node::where(array("class_id" => $id))->get();

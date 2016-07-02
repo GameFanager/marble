@@ -46,78 +46,101 @@
     </div><!-- /.modal -->
     
 
-    <form action="{{url("admin/nodeclass/saveattributes/" . $nodeClass->id) }}" method="post">
+    <form action="{{url("admin/nodeclass/saveattributes/" . $nodeClass->id) }}" method="post" id="class-attributes">
         {!! csrf_field() !!}
 
-        @foreach($nodeClass->attributes as $attribute)
+        @foreach($groupedClassAttributes as $classAttributeGroup)
 
+            <div class="class-attribute-sortable">
 
-            <div class="main-box"  style="position: relative">
-                <header class="main-box-header clearfix">
-                    @if($attribute->named_identifier == "name")
-                        <h2><b>{{$attribute->name}}</b></h2>
-                    @else
-                    <h2>
-                        <b>{{$attribute->name}}</b> &lt; {{$attribute->type->name}} &gt; 
-                        <input style="width:55px; display: inline-block;" type="text" name="sort_order[{{$attribute->id}}]" value="{{$attribute->sort_order}}" class="form-control"/>
+                @foreach($classAttributeGroup->items as $attribute)
+                    <div class="main-box" data-attribute-id="{{$attribute->id}}" style="position: relative">
+
+                        <input type="hidden" name="sort_order[{{$attribute->id}}]" value="{{$attribute->sort_order}}" class="input-sort-order"/>
                         
-                    </h2>
-                    @endif
-                </header>
-                <div class="main-box-body clearfix">
-                    @if($attribute->named_identifier != "name")
-                        <div style="position: absolute; top: 10px; right: 10px">
-                            <a href="{{url("admin/nodeclass/deleteattribute/" . $nodeClass->id . "/" . $attribute->id)}}" class="btn btn-danger">Löschen</a>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" class="form-control"/>
+                        <header class="main-box-header clearfix">
+                            @if($attribute->named_identifier == "name")
+                                <h2><b>{{$attribute->name}}</b></h2>
+                            @else
+                            <h2>
+                                <b>{{$attribute->name}}</b> &lt; {{$attribute->type->name}} &gt; 
+                                
+                            </h2>
+                            @endif
+                        </header>
+                        <div class="main-box-body clearfix">
+                            @if($attribute->named_identifier != "name")
+                                <div style="position: absolute; top: 10px; right: 10px">
+                                    <a href="{{url("admin/nodeclass/deleteattribute/" . $nodeClass->id . "/" . $attribute->id)}}" class="btn btn-danger">Löschen</a>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" class="form-control"/>
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <label>Identifier</label>
+                                    <input type="text" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" class="form-control"/>
+                                </div>
+                            @else 
+                                <input type="hidden" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" />
+                                <input type="hidden" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" />
+                            @endif
+
                             
-                        </div>
-                        <div class="form-group">
-                            <label>Identifier</label>
-                            <input type="text" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" class="form-control"/>
-                        </div>
-                    @else 
-                        <input type="hidden" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" />
-                        <input type="hidden" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" />
-                        <input type="hidden" name="sort_order[{{$attribute->id}}]" value="{{$attribute->sort_order}}" />
-                    @endif
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" name="translate[{{$attribute->id}}]" value="1" {{ $attribute->translate ? 'checked="checked"' : '' }} /> &nbsp; Übersetzbar?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" name="locked[{{$attribute->id}}]" value="1" {{ $attribute->locked ? 'checked="checked"' : '' }} /> &nbsp; Gesperrt?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="group_id[{{$attribute->id}}]" class="form-control">
+                                        <option {{ $attribute->group_id == 0 ? "selected" : "" }}value="0">Keine Gruppe</option>
+                                        @foreach($classAttributeGroups as $classAttributeGroup)
+                                            <option {{ $attribute->group_id == $classAttributeGroup->id ? "selected" : "" }} value="{{$classAttributeGroup->id}}">{{$classAttributeGroup->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
-                    
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" name="translate[{{$attribute->id}}]" value="1" {{ $attribute->translate ? 'checked="checked"' : '' }} /> &nbsp; Übersetzbar?
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" name="locked[{{$attribute->id}}]" value="1" {{ $attribute->locked ? 'checked="checked"' : '' }} /> &nbsp; Gesperrt?
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <select name="group_id[{{$attribute->id}}]" class="form-control">
-                                <option {{ $attribute->group_id == 0 ? "selected" : "" }}value="0">Keine Gruppe</option>
-                                @foreach($classAttributeGroups as $classAttributeGroup)
-                                    <option {{ $attribute->group_id == $classAttributeGroup->id ? "selected" : "" }} value="{{$classAttributeGroup->id}}">{{$classAttributeGroup->name}}</option>
-                                @endforeach
-                            </select>
+                            @if(method_exists($attribute->class, "renderConfiguration"))
+                                {!! $attribute->class->renderConfiguration() !!}
+                            @endif
                         </div>
                     </div>
-
-                    @if(method_exists($attribute->class, "renderConfiguration"))
-                        {!! $attribute->class->renderConfiguration() !!}
-                    @endif
-                </div>
+                @endforeach
             </div>
         @endforeach
 
+        <script>
+            $( ".class-attribute-sortable" ).sortable({
+                revert: true,
+                stop: function(){
+                    var $classAttributeGroups = $(".class-attribute-sortable");
+
+                    $classAttributeGroups.each(function(){
+                        var i = 0;
+
+                        $(this).find(".input-sort-order").each(function(){
+                            $(this).val(i++);
+                        });
+
+                    });
+                    //$.post("/admin/nodeclass/sortattributegroups/{{$nodeClass->id}}", {groups:classAttributeGroups});
+                }
+            });
+        </script>
         <div class="main-box">
             <header class="main-box-header clearfix" style="min-height:30px">
             </header>
