@@ -10,7 +10,7 @@ class NodeClass extends Model
     
     public function getAttributesAttribute(){
         
-        $classAttributes = ClassAttribute::where(array("class_id" => $this->id))->get();
+        $classAttributes = ClassAttribute::where(array("class_id" => $this->id))->get()->sortBy("sort_order");
         
         $attributes = array();
         

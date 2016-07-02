@@ -26,32 +26,44 @@
 
         @foreach($nodeClass->attributes as $attribute)
 
-            @if($attribute->locked)
-                @continue
-            @endif 
 
             <div class="main-box"  style="position: relative">
                 <header class="main-box-header clearfix">
+                    @if($attribute->named_identifier == "name")
+                        <h2><b>{{$attribute->name}}</b></h2>
+                    @else
                     <h2><b>{{$attribute->name}}</b> &lt; {{$attribute->type->name}} &gt; <input style="width:55px; display: inline-block;" type="text" name="sort_order[{{$attribute->id}}]" value="{{$attribute->sort_order}}" class="form-control"/></h2>
+                    @endif
                 </header>
                 <div class="main-box-body clearfix">
-
-                    <div style="position: absolute; top: 10px; right: 10px">
-                        <a href="{{url("admin/nodeclass/deleteattribute/" . $nodeClass->id . "/" . $attribute->id)}}" class="btn btn-danger">Löschen</a>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" class="form-control"/>
+                    @if($attribute->named_identifier != "name")
+                        <div style="position: absolute; top: 10px; right: 10px">
+                            <a href="{{url("admin/nodeclass/deleteattribute/" . $nodeClass->id . "/" . $attribute->id)}}" class="btn btn-danger">Löschen</a>
+                        </div>
                         
-                    </div>
-                    <div class="form-group">
-                        <label>Identifier</label>
-                        <input type="text" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" class="form-control"/>
-                    </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" class="form-control"/>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label>Identifier</label>
+                            <input type="text" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" class="form-control"/>
+                        </div>
+                    @else 
+                        <input type="hidden" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" />
+                        <input type="hidden" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" />
+                        <input type="hidden" name="sort_order[{{$attribute->id}}]" value="{{$attribute->sort_order}}" />
+                    @endif
+
                     <div class="form-group">
                         <label>
                             <input type="checkbox" name="translate[{{$attribute->id}}]" value="1" {{ $attribute->translate ? 'checked="checked"' : '' }} /> &nbsp; Übersetzbar?
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="locked[{{$attribute->id}}]" value="1" {{ $attribute->locked ? 'checked="checked"' : '' }} /> &nbsp; Gesperrt?
                         </label>
                     </div>
 

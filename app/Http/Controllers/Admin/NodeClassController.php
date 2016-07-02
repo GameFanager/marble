@@ -50,7 +50,8 @@ class NodeClassController extends Controller
         $nameClassAttribute->name = "Name";
         $nameClassAttribute->named_identifier = "name";
         $nameClassAttribute->translate = 1;
-        $nameClassAttribute->locked = 1;
+        $nameClassAttribute->locked = 0;
+        $nameClassAttribute->sort_order = -1;
         $nameClassAttribute->save();
 
         $slugClassAttribute = new ClassAttribute;
@@ -153,9 +154,21 @@ class NodeClassController extends Controller
     public function deleteAttribute($id, $attributeId)
     {
         ClassAttribute::destroy($attributeId);
+        $languages = Language::all();
+
         $nodeClassAttributes = NodeClassAttribute::where(array("class_attribute_id" => $attributeId))->get();
         
         foreach($nodeClassAttributes as $nodeClassAttribute){
+
+            $nodeTranslations = NodeTranslation::where(
+                array(
+                    "node_class_attribute_id" => $nodeClassAttribute->id
+                ))->get();
+            
+            foreach($nodeTranslations as $nodeTranslation){
+                $nodeTranslation->delete();
+            }
+
             $nodeClassAttribute->delete();
         }
 
@@ -167,6 +180,7 @@ class NodeClassController extends Controller
         $attributes = $request->input("name");
         $namedIdentifiers = $request->input("named_identifier");
         $translate = $request->input("translate");
+        $locked = $request->input("locked");
         $sortOrder = $request->input("sort_order");
         $configuration = $request->input("configuration");
         
@@ -175,6 +189,7 @@ class NodeClassController extends Controller
             $attribute->name = $name;
             $attribute->named_identifier = $namedIdentifiers[$attributeId];
             $attribute->translate = isset( $translate[$attributeId] ) ? 1 : 0;
+            $attribute->locked = isset( $locked[$attributeId] ) ? 1 : 0;
             $attribute->sort_order = $sortOrder[$attributeId];
             $attribute->named_identifier = $namedIdentifiers[$attributeId];
             

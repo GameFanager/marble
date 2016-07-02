@@ -17,6 +17,9 @@
 
 
                 @foreach($node->attributes as $attribute)
+
+                    @continue($attribute->classAttribute->locked)
+
                     <div class="form-group">
                         <label>{{ $attribute->classAttribute->name }}</label>
                         

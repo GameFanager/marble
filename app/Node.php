@@ -11,7 +11,7 @@ class Node extends Model
 
     public function getAttributesAttribute()
     {
-        $classAttributes = ClassAttribute::where(array("class_id" => $this->class_id))->get();
+        $classAttributes = ClassAttribute::where(array("class_id" => $this->class_id))->get()->sortBy("sort_order");
         $attributes = (object)array();
 
         foreach($classAttributes as $classAttribute){
