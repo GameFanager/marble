@@ -8,13 +8,13 @@
             </p>
         @else
             <p>
-                Kein Bild Ausgewählt...
+                Kein Bild ausgewählt...
             </p>
         @endif
         
         
         <input type="file" name="file_{{$attribute->id}}_{{$locale}}" class="form-control" value="" />
-        <input type="hidden" name="attributes[{{$attribute->id}}][{{$locale}}]" class="form-control" value="{{$attribute->id}}" />
+        <input type="hidden" name="attributes[{{$attribute->id}}][{{$locale}}]" class="form-control" value="noop" />
     </p>
 </div>
 

@@ -186,6 +186,24 @@
             $parent.parent().find('input[type="hidden"]').val("");
         });
 
+        $(".images-delete").click(function(){
+            var $parent = $(this).parent(),
+                $inputElement = $parent.parent().find('input[type="hidden"]'),
+                key = $(this).data("key");
+            
+            if($inputElement.val() == "noop"){
+                $inputElement.val(key);
+            }else{
+                $inputElement.val($inputElement.val() + "," + key);
+            }
+
+            if($parent.parent().find("p").length == 1){
+                $parent.html("Keine Bilder ausgewählt...");
+            }else{
+                $parent.remove();
+            }
+        });
+
         $(".lang-switch").click(function(){
             var $parent = $(this).parent().parent(),
                 lang = $(this).data("lang");
