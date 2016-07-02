@@ -25,8 +25,13 @@ class FrontController extends Controller
 
     public function redirectLocale()
     {
-        $language = Language::find(Config::get("app.locale_id"));
-        return redirect("/" . $language->code . "/");
+        if( Config::get("app.uri_locale_prefix") ){
+            $language = Language::find(Config::get("app.locale_id"));
+            return redirect("/" . $language->code . "/");
+
+        }else{
+            return $this->viewIndexForLocale(Language::find(Config::get("app.locale_id")));
+        }
     }
 
     public function viewIndexForLocale($language)

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\NodeHelper;
+use Config;
 use App\Language;
 use App\Http\Controllers\FrontController;
 
@@ -9,7 +11,7 @@ class RouteHelper{
 
     public static function generate()
     {
-        $rootNode = Node::where(array("parent_id" => 0))->get()->first();
+        $rootNode = NodeHelper::getSystemNode("pages");
         $nodes = self::getChildren($rootNode->id);
         $languages = Language::all();
         $routes = array();
@@ -17,14 +19,16 @@ class RouteHelper{
 
         foreach($languages as $language){
 
-            $prefix = "/" . $language->code . "/";
+            $prefix = Config::get("app.uri_locale_prefix") ? "/" . $language->code . "/" : "/";
             $routes[$language->id] = array();
 
             self::generateRoutes($routes, $prefix, $nodes, $language);
 
-            \Route::get($prefix, function() use($controller, $language){
-                $controller->viewIndexForLocale($language);
-            });
+            if( Config::get("app.uri_locale_prefix") ){
+                \Route::get($prefix, function() use($controller, $language){
+                    $controller->viewIndexForLocale($language);
+                });
+            }
         }
 
         foreach($routes as $languageId => $languageRoute){
