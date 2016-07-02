@@ -78,7 +78,13 @@
          <div class="main-box">
             <header class="main-box-header clearfix">
                 <h2>
-                    Kinder
+                    <div class="pull-left">Kinder</div>
+                    <div class="pull-right">
+                        <a href="{{url("admin/node/add/" . $node->id)}}" class="btn btn-info btn-xs">
+                            Unterobjekt einfügen
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
                 </h2>
             </header>
             <div class="main-box-body clearfix">        
@@ -106,6 +112,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @if( ! count($childNodes) )
+                        <center><i>Keine Kindelemente verfügbar...</i></center>
+                        <br />
+                    @endif
                 </div>
             </div>
         </div>

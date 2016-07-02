@@ -41,6 +41,8 @@ class NodeController extends Controller
             $data["groupedNodeAttributes"][$sortKey]->items[] = $nodeAttribute;
         }
 
+        ksort($data["groupedNodeAttributes"]);
+
         $data["languages"] = $languages;
 
         if($node->class->list_children){
