@@ -42,7 +42,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="btn" href="admin/classes">
+                                <a class="btn" href="{{url("admin/nodeclass/list")}}">
                                     <i class="fa fa-folder">
                                     </i>
                                     <span>Klassen</span>
@@ -104,21 +104,46 @@
                             <h1>&nbsp;</h2>
                             
                             @if( isset($node) )
+
                                 <div class="main-box clearfix profile-box-menu">
                                     <div class="main-box-body clearfix">
                                         <div class="profile-box-header green-bg clearfix" style="padding:0 15px 15px">
-                                            <h2>Name</h2>
+                                            <h2>{{$node->attributes->name->value[$locale_id]}}</h2>
                                             <div class="job-position">
-                                                Name
+                                                {{$node->class->name}}
                                             </div>
                                         </div>
                                         <div class="profile-box-content clearfix">
                                             <ul class="menu-items">
-                                                <li>
-                                                    <a href="{{url("admin/node/add/" . $node->id)}}" class="clearfix">
-                                                        <i class="fa fa-plus fa-lg"></i> Unterobjekt einfügen
-                                                    </a>
-                                                </li>
+                                                @if($node->parent_id != 0)
+                                                    <li>
+                                                        <a href="{{url("admin/node/delete/" . $node->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="clearfix">
+                                                            <i class="fa fa-trash-o fa-lg"></i> Inhalt löschen
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if($node->class->allow_children)
+                                                    <li>
+                                                        <a href="{{url("admin/node/add/" . $node->id)}}" class="clearfix">
+                                                            <i class="fa fa-plus fa-lg"></i> Unterobjekt einfügen
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="main-box clearfix profile-box-menu">
+                                    <div class="main-box-body clearfix">
+                                        <div class="profile-box-header gray-bg clearfix" style="padding:0 15px 15px">
+                                            <h2>Meta Information</h2>
+                                        </div>
+                                        <div class="profile-box-content clearfix">
+                                            <ul class="menu-items">
+                                                <li><a href="#"><b>ID:</b> {{$node->id}}</a></li>
+                                                <li><a href="#"><b>Class ID:</b> {{$node->class->id}}</a></li>
+                                                <li><a href="#"><b>Parent ID:</b> {{$node->parent_id}}</a></li>
                                             </ul>
                                         </div>
                                     </div>

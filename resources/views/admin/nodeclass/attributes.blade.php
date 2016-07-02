@@ -25,6 +25,11 @@
         {!! csrf_field() !!}
 
         @foreach($nodeClass->attributes as $attribute)
+
+            @if($attribute->locked)
+                @continue
+            @endif 
+            
             <div class="main-box"  style="position: relative">
                 <header class="main-box-header clearfix">
                     <h2><b>{{$attribute->name}}</b> &lt; {{$attribute->type->name}} &gt; <input style="width:55px; display: inline-block;" type="text" name="sort_order[{{$attribute->id}}]" value="{{$attribute->sort_order}}" class="form-control"/></h2>

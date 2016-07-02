@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <h1>{{$node->name["en"]}}</h1>
+    <h1>{{$node->attributes->name->value[$locale_id]}}</h1>
 
     <div class="main-box">
         <header class="main-box-header clearfix">
-            <h2>{{$node->name["en"]}}</h2>
+            <h2>{{$node->attributes->name->value[$locale_id]}}</h2>
         </header>
         <div class="main-box-body clearfix">
 
@@ -15,39 +15,6 @@
 
                 {!! csrf_field() !!}
 
-                <div class="form-group">
-                	<label>Name</label>
-                    <div class="lang-container">
-                        <div class="lang-switch-container">
-                            @foreach($languages as $i => $language)
-                                <div class="lang-switch {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">{{$language->name}}</div>
-                            @endforeach
-                        </div>
-
-                        @foreach($languages as $i => $language)
-                            <div class="lang-content {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">
-                                <input type="text" name="translationAttribute[name][{{$language->code}}]" value="{{$node->name[$language->code]}}" class="form-control"/>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <div class="form-group">
-                	<label>Slug</label>
-                    <div class="lang-container">
-                        <div class="lang-switch-container">
-                            @foreach($languages as $i => $language)
-                                <div class="lang-switch {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">{{$language->name}}</div>
-                            @endforeach
-                        </div>
-
-                        @foreach($languages as $i => $language)
-                            <div class="lang-content {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">
-                                <input type="text" name="translationAttribute[slug][{{$language->code}}]" value="{{$node->slug[$language->code]}}" class="form-control"/>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
 
                 @foreach($node->attributes as $attribute)
                     <div class="form-group">
@@ -56,21 +23,19 @@
                         @if($attribute->classAttribute->translate)
                             <div class="lang-container">
                                 <div class="lang-switch-container">
-                                    <div class="lang-switch active" data-lang="de">DE</div>
-                                    <div class="lang-switch" data-lang="en">EN</div>
+                                    @foreach($languages as $i => $language)
+                                        <div class="lang-switch {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">{{$language->name}}</div>
+                                    @endforeach
                                 </div>
-                                <div class="lang-content active" data-lang="de">
-                                    < ?= $this->node->get_edit_field($attribute, "de"); ?>
-                                </div>
-                                <div class="lang-content" data-lang="en">
-                                    < ?= $this->node->get_edit_field($attribute, "en"); ?>
-                                </div>
+
+                                @foreach($languages as $i => $language)
+                                    <div class="lang-content {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">
+                                        {!! $attribute->class->renderEdit($language->id)!!} 
+                                    </div>
+                                @endforeach
                             </div>
                         @else
-                            {!! $attribute->class->renderEdit()!!}   
-                            <div style="display: none">
-                                < ?= $this->node->get_edit_field($attribute, "en"); ?>
-                            </div>
+                            {!! $attribute->class->renderEdit(1)!!}
                         @endif
                     </div>
                 @endforeach

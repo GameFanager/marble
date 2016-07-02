@@ -1,1 +1,1 @@
-<input type="text" name="attributes[{{$attribute->id}}]" value="{{$attribute->value}}" class="form-control" />
+<input type="text" name="attributes[{{$attribute->id}}][{{$locale}}]" value="{{$attribute->value[$locale]}}" class="form-control" />

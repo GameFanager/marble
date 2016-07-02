@@ -8,7 +8,8 @@
     @foreach($nodes as $node)
         <li class="open">
             <a href="{{url("/admin/node/edit/". $node->id)}}" class="{{ count($node->children) ? "dropdown-toggle" : "" }}">
-               <span>{{$node->name["en"]}}</span>
+                <i class="fa fa-{{$node->class->icon}}" ></i>
+                <span>{{$node->attributes->name->value[$locale_id]}}</span>
             </a>
 
             @include("admin/layouts/tree", array("nodes" => $node->children, "isRoot" => false))

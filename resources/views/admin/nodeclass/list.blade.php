@@ -26,7 +26,7 @@
                         @foreach($nodeClasses as $nodeClass)
                             <tr>
                                 <td>
-                                    <a href="{{ url("admin/classes/edit/" . $nodeClass->id) }}">{{$nodeClass->name}}</a>
+                                    <a href="{{ url("admin/nodeclass/edit/" . $nodeClass->id) }}">{{$nodeClass->name}}</a>
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">

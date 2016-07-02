@@ -23,12 +23,30 @@ class NodeClassController extends Controller
         
         return view('admin/nodeclass/list', $data);
     }
-    
+
     public function addNodeClass()
     {
         $nodeClass = new NodeClass;
         $nodeClass->name = "Neue Klasse";
         $nodeClass->save();
+
+        $nameClassAttribute = new ClassAttribute;
+        $nameClassAttribute->class_id = $nodeClass->id;
+        $nameClassAttribute->attribute_id = 1;
+        $nameClassAttribute->name = "Name";
+        $nameClassAttribute->named_identifier = "name";
+        $nameClassAttribute->translate = 1;
+        $nameClassAttribute->locked = 1;
+        $nameClassAttribute->save();
+
+        $slugClassAttribute = new ClassAttribute;
+        $slugClassAttribute->class_id = $nodeClass->id;
+        $slugClassAttribute->attribute_id = 1;
+        $slugClassAttribute->name = "Slug";
+        $slugClassAttribute->named_identifier = "slug";
+        $slugClassAttribute->translate = 1;
+        $slugClassAttribute->locked = 0;
+        $slugClassAttribute->save();
         
         return redirect("/admin/nodeclass/edit/" . $nodeClass->id);
     }
@@ -49,6 +67,8 @@ class NodeClassController extends Controller
         $nodeClass = NodeClass::find($id);
         $nodeClass->name = $request->input("name");
         $nodeClass->named_identifier = $request->input("named_identifier");
+        $nodeClass->icon = $request->input("icon");
+        $nodeClass->allow_children = $request->input("allow_children");
         $nodeClass->save();
         
         return redirect("/admin/nodeclass/list");
@@ -58,6 +78,12 @@ class NodeClassController extends Controller
     {
         NodeClass::destroy($id);
         
+        $classAttributes = ClassAttribute::where(array("class_id" => $id))->get();
+
+        foreach($classAttributes as $classAttribute){
+            ClassAttribute::destroy($classAttribute->id);
+        }
+
         return redirect("/admin/nodeclass/list");
     }
     
@@ -80,6 +106,7 @@ class NodeClassController extends Controller
         $classAttribute->name = "Neues Attribute";
         $classAttribute->class_id = $id;
         $classAttribute->attribute_id = $request->input("type");
+        $classAttribute->named_identifier = "new_attribute";
         $classAttribute->save();
 
         $nodes = Node::where(array("class_id" => $id))->get();
@@ -116,12 +143,12 @@ class NodeClassController extends Controller
         $translate = $request->input("translate");
         $sortOrder = $request->input("sort_order");
         $configuration = $request->input("configuration");
-
+        
         foreach($attributes as $attributeId => $name){
             $attribute = ClassAttribute::find($attributeId);
             $attribute->name = $name;
             $attribute->named_identifier = $namedIdentifiers[$attributeId];
-            $attribute->translate = $translate[$attributeId];
+            $attribute->translate = isset( $translate[$attributeId] ) ? 1 : 0;
             $attribute->sort_order = $sortOrder[$attributeId];
             $attribute->named_identifier = $namedIdentifiers[$attributeId];
             $attribute->configuration = $configuration[$attributeId];

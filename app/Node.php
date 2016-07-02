@@ -11,7 +11,7 @@ class Node extends Model
     public function getAttributesAttribute()
     {
         $classAttributes = ClassAttribute::where(array("class_id" => $this->class_id))->get();
-        $attributes = array();
+        $attributes = (object)array();
 
         foreach($classAttributes as &$classAttribute){
 
@@ -21,46 +21,16 @@ class Node extends Model
             ))->get()->first();
 
             $classAttribute->configuration = unserialize($classAttribute->configuration);
-            $attribute->_classAttribute = $classAttribute;
-            $classNameParts = explode("_", $classAttribute->type->named_identifier);
-            $className = '\App\Attributes\\';
 
-            foreach($classNameParts as $classNamePart){
-                $className .= ucfirst($classNamePart);
-            }
-            $attribute->_class = new $className($attribute);
-            
-            $attributes[] = $attribute;
+            $attributes->{$classAttribute->named_identifier} = $attribute;
         }
 
         return $attributes;
     }
 
-    private function getTranslationAttributeByType($type)
+    public function getClassAttribute()
     {
-        $nodeTranslations = NodeTranslation::where(
-            array(
-                "node_id" => $this->id, 
-                "type" => $type)
-            )->get();
-        
-        $nodeValues = array();
-
-        foreach($nodeTranslations as $nodeTranslation){
-            $language = Language::find($nodeTranslation->language_id);
-            $nodeValues[$language->code] = $nodeTranslation->value;
-        }
-        return $nodeValues;
-    }
-
-    public function getNameAttribute()
-    {
-        return $this->getTranslationAttributeByType("name");
-    }
-
-    public function getSlugAttribute()
-    {
-        return $this->getTranslationAttributeByType("slug");
+        return NodeClass::find($this->class_id);
     }
     
 }
