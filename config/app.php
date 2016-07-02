@@ -69,6 +69,7 @@ return [
 
     'locale_id' => 1,
     'system_nodes_id' => 23,
+    'entry_node_id' => 1,
     'uri_locale_prefix' => true,
 
     /*

@@ -4,52 +4,92 @@
 
     <h1>{{$node->name}}</h1>
 
-    <div class="main-box">
-        <header class="main-box-header clearfix">
-            <h2>{{$node->name}}</h2>
-        </header>
-        <div class="main-box-body clearfix">
+    @if( ! $node->class->locked )
+        <div class="main-box">
+            <header class="main-box-header clearfix">
+                <h2>{{$node->name}}</h2>
+            </header>
+            <div class="main-box-body clearfix">
 
 
-            <form action="{{url("admin/node/save/" . $node->id) }}" enctype="multipart/form-data" method="post">
+                <form action="{{url("admin/node/save/" . $node->id) }}" enctype="multipart/form-data" method="post">
 
-                {!! csrf_field() !!}
+                    {!! csrf_field() !!}
 
 
-                @foreach($node->attributes as $attribute)
+                    @foreach($node->attributes as $attribute)
 
-                    @continue($attribute->classAttribute->locked)
+                        @continue($attribute->classAttribute->locked)
 
-                    <div class="form-group">
-                        <label>{{ $attribute->classAttribute->name }}</label>
-                        
-                        @if($attribute->classAttribute->translate)
-                            <div class="lang-container">
-                                <div class="lang-switch-container">
+                        <div class="form-group">
+                            <label>{{ $attribute->classAttribute->name }}</label>
+                            
+                            @if($attribute->classAttribute->translate)
+                                <div class="lang-container">
+                                    <div class="lang-switch-container">
+                                        @foreach($languages as $i => $language)
+                                            <div class="lang-switch {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">{{$language->name}}</div>
+                                        @endforeach
+                                    </div>
+
                                     @foreach($languages as $i => $language)
-                                        <div class="lang-switch {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">{{$language->name}}</div>
+                                        <div class="lang-content {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">
+                                            {!! $attribute->class->renderEdit($language->id)!!} 
+                                        </div>
                                     @endforeach
                                 </div>
-
-                                @foreach($languages as $i => $language)
-                                    <div class="lang-content {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">
-                                        {!! $attribute->class->renderEdit($language->id)!!} 
-                                    </div>
-                                @endforeach
-                            </div>
-                        @else
-                            {!! $attribute->class->renderEdit($locale_id)!!}
-                        @endif
+                            @else
+                                {!! $attribute->class->renderEdit($locale_id)!!}
+                            @endif
+                        </div>
+                    @endforeach
+                    
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="Speichern" />
                     </div>
-                @endforeach
-                
-                <div class="form-group">
-                    <input type="submit" class="btn btn-success" value="Speichern" />
-                </div>
-            </form>
+                </form>
 
+            </div>
         </div>
-    </div>
+    @endif
+
+    @if($node->class->list_children)
+         <div class="main-box">
+            <header class="main-box-header clearfix">
+                <h2>
+                    Kinder
+                </h2>
+            </header>
+            <div class="main-box-body clearfix">        
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><a href="#"><span>Name</span></a></th>
+                                <th class="text-right"><span>&nbsp;</span></th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            @foreach($childNodes as $childNode)
+                                <tr>
+                                    <td>
+                                        <a href="{{ url("admin/node/edit/" . $childNode->id) }}"><i class="fa fa-{{$childNode->class->icon}}" ></i> {{$childNode->name}}</a>
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <a href="{{ url("admin/node/edit/" . $childNode->id) }}" class="btn btn-info">Bearbeiten</a>
+                                            <a href="{{ url("admin/node/delete/" . $childNode->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-danger">Löschen</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
+
 
     <script>
         $(".object-browser").click(function(){

@@ -2,13 +2,12 @@
 
 namespace App;
 
+use Config;
+
 class TreeHelper{
     public static function generate()
     {
-        /*$rootNode = Node::where(array("parent_id" => 0))->get()->first();
-        $rootNode->children = self::getChildren($rootNode->id);
-        return $rootNode;*/
-        return self::getChildren(0);
+        return self::getChildren(Config::get("app.entry_node_id"));
     }
 
     private static function getChildren($parentId)

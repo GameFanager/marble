@@ -25,6 +25,10 @@ class NodeController extends Controller
         $data["node"] = $node;
         $data["languages"] = $languages;
 
+        if($node->class->list_children){
+            $data["childNodes"] = Node::where(array("parent_id" => $id))->get();
+        }
+
         return view('admin/node/edit', $data);
     }
 

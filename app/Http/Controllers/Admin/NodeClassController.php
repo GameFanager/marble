@@ -86,7 +86,9 @@ class NodeClassController extends Controller
         $nodeClass->named_identifier = $request->input("named_identifier");
         $nodeClass->icon = $request->input("icon");
         $nodeClass->allow_children = $request->input("allow_children");
+        $nodeClass->list_children = $request->input("list_children");
         $nodeClass->group_id = $request->input("group_id");
+        $nodeClass->locked = $request->input("locked");
         $nodeClass->save();
         
         return redirect("/admin/nodeclass/list");

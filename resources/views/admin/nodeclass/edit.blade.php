@@ -63,6 +63,22 @@
                 </div>
             
                 <div class="form-group">
+                    <label>Kinder auflisten</label>
+                    <select name="list_children" class="form-control">
+                        <option value="1" {{ $nodeClass->list_children == 1 ? 'selected="selected"' : '' }}>ja</option>
+                        <option value="0" {{ $nodeClass->list_children == 0 ? 'selected="selected"' : '' }}>nein</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label>Gesperrt</label>
+                    <select name="locked" class="form-control">
+                        <option value="1" {{ $nodeClass->locked == 1 ? 'selected="selected"' : '' }}>ja</option>
+                        <option value="0" {{ $nodeClass->locked == 0 ? 'selected="selected"' : '' }}>nein</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
                     <label>Gruppe</label>
                     <select name="group_id" class="form-control">
                         @foreach($nodeClassGroups as $nodeClassGroup)
