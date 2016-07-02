@@ -139,3 +139,57 @@
 .lang-content.active{
     display: block;
 }
+
+.table td > a{
+    font-size: 1.4rem;
+    color: #333
+}
+
+.table td a > i{
+    font-size: 1.3rem;
+}
+
+.table tbody > tr > td{
+    padding: 5px 5px;
+}
+
+.profile-box-menu .profile-box-content .menu-items li.more{
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #e7ebee;
+    padding: 0 20px;
+    font-size: 0.875em;
+    color: #344644;
+}
+.profile-box-menu .profile-box-content .menu-items li.more i{
+    width: 24px;
+}
+
+.profile-box-menu .profile-box-content .menu-items li.more .pull-left{
+    
+}
+
+.profile-box-menu .profile-box-content .menu-items li.more .pull-right{
+    
+}
+
+.profile-box-menu .profile-box-content .menu-items li.more:hover .btn{
+    opacity: 1;
+}
+
+.profile-box-menu .profile-box-content .menu-items li.more .btn:hover{
+    background-color: #c0392b;
+}
+
+.profile-box-menu .profile-box-content .menu-items li.more .btn{
+    margin-top: 6px;
+    padding: 3px 12px;
+    height: auto;
+    line-height: 1.5;
+    color: #fff;
+    border-bottom: 4px solid #d43f3a;
+    opacity: 0;
+    -webkit-transition: all 0.15s ease-in-out 0s;
+    transition: all 0.15s ease-in-out 0s;
+}

@@ -5,6 +5,7 @@ use App\NodeClass;
 use App\Node;
 use App\Attribute;
 use App\ClassAttribute;
+use App\ClassAttributeGroup;
 use App\NodeClassAttribute;
 use App\NodeClassGroup;
 use App\NodeTranslation;
@@ -106,27 +107,51 @@ class NodeClassController extends Controller
 
         return redirect("/admin/nodeclass/list");
     }
+
+    public function addAttributeGroup(Request $request, $id)
+    {
+        $group = new ClassAttributeGroup;
+        $group->class_id = $id;
+        $group->name = $request->input("name");
+        $group->save();
+
+        return redirect("/admin/nodeclass/attributes/" . $id);
+    }
+
+    public function deleteAttributeGroup($id, $groupId){
+        $classAttributes = ClassAttribute::where(array("group_id" => $groupId))->get();
+        foreach($classAttributes as $classAttribute){
+            $classAttribute->group_id = 0;
+            $classAttribute->save();
+        }
+        ClassAttributeGroup::destroy($groupId);
+        return redirect("/admin/nodeclass/attributes/" . $id);
+    }
     
     public function editAttributes($id)
     {
         $nodeClass = NodeClass::find($id);
         $attributes = Attribute::all();
-        
+        $classAttributeGroups = ClassAttributeGroup::where(array("class_id" => $id))->get();
         $data = array();
         
         $data["nodeClass"] = $nodeClass;
         $data["attributes"] = $attributes;
+        $data["classAttributeGroups"] = $classAttributeGroups;
         
         return view("/admin/nodeclass/attributes", $data);
     }
 
     public function addAttribute(Request $request, $id)
     {
+        $classAttributes = ClassAttribute::where(array("class_id" => $id))->get();
+
         $classAttribute = new ClassAttribute;
         $classAttribute->name = "Neues Attribute";
         $classAttribute->class_id = $id;
         $classAttribute->attribute_id = $request->input("type");
         $classAttribute->named_identifier = "new_attribute";
+        $classAttribute->sort_order = count($classAttributes) * 10;
         $classAttribute->save();
 
         $nodes = Node::where(array("class_id" => $id))->get();
@@ -185,6 +210,7 @@ class NodeClassController extends Controller
         $locked = $request->input("locked");
         $sortOrder = $request->input("sort_order");
         $configuration = $request->input("configuration");
+        $groupId = $request->input("group_id");
         
         foreach($attributes as $attributeId => $name){
             $attribute = ClassAttribute::find($attributeId);
@@ -194,6 +220,7 @@ class NodeClassController extends Controller
             $attribute->locked = isset( $locked[$attributeId] ) ? 1 : 0;
             $attribute->sort_order = $sortOrder[$attributeId];
             $attribute->named_identifier = $namedIdentifiers[$attributeId];
+            $attribute->group_id = $groupId[$attributeId];
             
             if( isset($configuration[$attributeId]) ){
                 $attribute->configuration = $configuration[$attributeId];

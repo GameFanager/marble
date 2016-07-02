@@ -102,6 +102,40 @@
                         </div>
                         <div class="col-lg-3">
                             <h1>&nbsp;</h2>
+
+                            @if( isset($nodeClass) and isset($classAttributeGroups) )
+                                <div class="main-box clearfix profile-box-menu">
+                                    <div class="main-box-body clearfix">
+                                        <div class="profile-box-header gray-bg clearfix" style="padding:0 15px 15px">
+                                            <h2>Attribut Gruppen</h2>
+                                            <div class="job-position">
+                                                {{$nodeClass->name}}
+                                            </div>
+                                        </div>
+                                        <div class="profile-box-content clearfix">
+                                            <ul class="menu-items">
+                                                @foreach($classAttributeGroups as $classAttributeGroup)
+                                                    <li class="more">
+                                                        
+                                                        <div class="pull-left">
+                                                            <i class="fa fa-folder-open-o fa-lg"></i> {{$classAttributeGroup->name}}
+                                                        </div>
+                                                        <a style="display:inline-block" href="{{url("admin/nodeclass/deleteattributegroup/" . $nodeClass->id . "/" . $classAttributeGroup->id)}}" class="btn pull-right btn-danger btn-xs">
+                                                            löschen
+                                                        </a>
+                                                        <div class="clearfix"></div>
+                                                    </li>
+                                                @endforeach
+                                                <li>
+                                                    <a data-modal-id="add-attribute-group-modal" href="javascript:$('#add-attribute-group-modal').modal('show')" class="clearfix" class="add-attribute-group">
+                                                        <i class="fa fa-plus fa-lg"></i> Gruppe hinzufügen
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                             
                             @if( isset($node) )
 

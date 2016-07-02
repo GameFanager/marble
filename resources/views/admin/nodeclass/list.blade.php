@@ -5,8 +5,8 @@
     <h1>
     	Klassen
         <div class="pull-right">
-    		<a href="{{ url("admin/nodeclass/addgroup") }}" class="btn btn-success">Klassegruppe hinzufügen</a>
-    		<a href="{{ url("admin/nodeclass/add") }}" class="btn btn-success">Klasse hinzufügen</a>
+    		<a href="{{ url("admin/nodeclass/addgroup") }}" class="btn btn-xs btn-success">Klassegruppe hinzufügen</a>
+    		<a href="{{ url("admin/nodeclass/add") }}" class="btn btn-xs btn-success">Klasse hinzufügen</a>
         </div>
     </h1>
 
@@ -16,7 +16,7 @@
         </header>
         <div class="main-box-body clearfix">        
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th><a href="#"><span>Name</span></a></th>
@@ -31,8 +31,8 @@
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <a href="{{ url("admin/nodeclass/editgroup/" . $nodeClassGroup->id) }}" class="btn btn-info">Bearbeiten</a>
-                                        <a href="{{ url("admin/nodeclass/deletegroup/" . $nodeClassGroup->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-danger">Löschen</a>
+                                        <a href="{{ url("admin/nodeclass/editgroup/" . $nodeClassGroup->id) }}" class="btn btn-xs btn-info">Bearbeiten</a>
+                                        <a href="{{ url("admin/nodeclass/deletegroup/" . $nodeClassGroup->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
                                     </div>
                                 </td>
                             </tr>
@@ -54,7 +54,7 @@
         </header>
         <div class="main-box-body clearfix">        
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th><a href="#"><span>Name</span></a></th>
@@ -69,8 +69,8 @@
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <a href="{{ url("admin/nodeclass/edit/" . $nodeClass->id) }}" class="btn btn-info">Bearbeiten</a>
-                                        <a href="{{ url("admin/nodeclass/delete/" . $nodeClass->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-danger">Löschen</a>
+                                        <a href="{{ url("admin/nodeclass/edit/" . $nodeClass->id) }}" class="btn btn-info btn-xs">Bearbeiten</a>
+                                        <a href="{{ url("admin/nodeclass/delete/" . $nodeClass->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
                                     </div>
                                 </td>
                             </tr>

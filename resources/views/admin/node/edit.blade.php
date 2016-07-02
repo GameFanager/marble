@@ -62,7 +62,7 @@
             </header>
             <div class="main-box-body clearfix">        
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th><a href="#"><span>Name</span></a></th>
@@ -77,8 +77,8 @@
                                     </td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            <a href="{{ url("admin/node/edit/" . $childNode->id) }}" class="btn btn-info">Bearbeiten</a>
-                                            <a href="{{ url("admin/node/delete/" . $childNode->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-danger">Löschen</a>
+                                            <a href="{{ url("admin/node/edit/" . $childNode->id) }}" class="btn btn-xs btn-info">Bearbeiten</a>
+                                            <a href="{{ url("admin/node/delete/" . $childNode->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
                                         </div>
                                     </td>
                                 </tr>
