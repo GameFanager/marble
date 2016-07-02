@@ -7,6 +7,8 @@ use App\Attribute;
 use App\ClassAttribute;
 use App\NodeClassAttribute;
 use App\NodeClassGroup;
+use APp\NodeTranslation;
+use App\Language;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -125,6 +127,7 @@ class NodeClassController extends Controller
         $classAttribute->save();
 
         $nodes = Node::where(array("class_id" => $id))->get();
+        $languages = Language::all();
 
         $attribute = Attribute::find($classAttribute->attribute_id)->get()->first();
 
@@ -132,8 +135,16 @@ class NodeClassController extends Controller
             $nodeClassAttribute = new NodeClassAttribute;
             $nodeClassAttribute->node_id = $node->id;
             $nodeClassAttribute->class_attribute_id = $classAttribute->id;
-            $nodeClassAttribute->value = $attribute->default_value;
             $nodeClassAttribute->save();
+            
+            foreach($languages as $language){
+                $nodeTranslation = new NodeTranslation;
+                $nodeTranslation->node_id = $node->id;
+                $nodeTranslation->language_id = $language->id;
+                $nodeTranslation->value = $attribute->default_value;
+                $nodeTranslation->node_class_attribute_id = $nodeClassAttribute->id;
+                $nodeTranslation->save();
+            }
         }
 
         return redirect("/admin/nodeclass/attributes/" . $id);

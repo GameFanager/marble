@@ -18,6 +18,6 @@ class FrontController extends Controller
     public function viewNode($id, $languageId)
     {
         $node = Node::find($id);
-        die($node->attributes->name->value[$languageId]);
+        die($node->attributes->content->value[$languageId]);
     }
 }
