@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Node;
 use App\NodeClassAttribute;
+use App\ClassAttributeGroup;
 use App\ClassAttribute;
 use App\Language;
 use App\NodeTranslation;
@@ -23,6 +24,23 @@ class NodeController extends Controller
         $data = array();
 
         $data["node"] = $node;
+        $data["groupedNodeAttributes"] = array();
+
+        foreach($node->attributes as $nodeAttribute){
+            $groupId = $nodeAttribute->classAttribute->group_id;
+            $classAttributeGroup = ClassAttributeGroup::find($groupId);
+            $sortKey = $classAttributeGroup ? $classAttributeGroup->sort_order : 9999;
+
+            if( ! isset($data["groupedNodeAttributes"][$sortKey]) ){
+                $data["groupedNodeAttributes"][$sortKey] = (object)array(
+                    "group" => $classAttributeGroup,
+                    "items" => array()
+                );
+            }
+
+            $data["groupedNodeAttributes"][$sortKey]->items[] = $nodeAttribute;
+        }
+
         $data["languages"] = $languages;
 
         if($node->class->list_children){

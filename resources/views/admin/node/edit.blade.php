@@ -4,54 +4,75 @@
 
     <h1>{{$node->name}}</h1>
 
-    @if( ! $node->class->locked )
-        <div class="main-box">
-            <header class="main-box-header clearfix">
-                <h2>{{$node->name}}</h2>
-            </header>
-            <div class="main-box-body clearfix">
 
 
-                <form action="{{url("admin/node/save/" . $node->id) }}" enctype="multipart/form-data" method="post">
+    <form action="{{url("admin/node/save/" . $node->id) }}" enctype="multipart/form-data" method="post">
 
-                    {!! csrf_field() !!}
+        {!! csrf_field() !!}
 
+        @if( ! $node->class->locked )
 
-                    @foreach($node->attributes as $attribute)
+            @foreach($groupedNodeAttributes as $classAttributeGroup)
+                    
+                <div class="main-box">
+                    <header class="main-box-header clearfix">
+                        @if($classAttributeGroup->group)
+                            <h2>{{$classAttributeGroup->group->name}}</h2>
+                        @else
+                            <h2></h2>
+                        @endif
+                    </header>
+                    <div class="main-box-body clearfix">
 
-                        @continue($attribute->classAttribute->locked)
-
-                        <div class="form-group">
-                            <label>{{ $attribute->classAttribute->name }}</label>
+                        @foreach($classAttributeGroup->items as $attribute)
+                            @continue($attribute->classAttribute->locked)
                             
-                            @if($attribute->classAttribute->translate)
-                                <div class="lang-container">
-                                    <div class="lang-switch-container">
+
+                            <div class="form-group">
+                                <label>{{ $attribute->classAttribute->name }}</label>
+                                
+                                @if($attribute->classAttribute->translate)
+                                    <div class="lang-container">
+                                        <div class="lang-switch-container">
+                                            @foreach($languages as $i => $language)
+                                                <div class="lang-switch {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">{{$language->name}}</div>
+                                            @endforeach
+                                        </div>
+
                                         @foreach($languages as $i => $language)
-                                            <div class="lang-switch {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">{{$language->name}}</div>
+                                            <div class="lang-content {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">
+                                                {!! $attribute->class->renderEdit($language->id)!!} 
+                                            </div>
                                         @endforeach
                                     </div>
+                                @else
+                                    {!! $attribute->class->renderEdit($locale_id)!!}
+                                @endif
+                            </div>
 
-                                    @foreach($languages as $i => $language)
-                                        <div class="lang-content {{ $i == 0 ? 'active' : '' }}" data-lang="{{$language->code}}">
-                                            {!! $attribute->class->renderEdit($language->id)!!} 
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @else
-                                {!! $attribute->class->renderEdit($locale_id)!!}
-                            @endif
-                        </div>
-                    @endforeach
-                    
-                    <div class="form-group">
+                        @endforeach
+
+                    </div>
+                </div>
+
+            @endforeach
+
+
+            <div class="main-box">
+                <header class="main-box-header clearfix">
+                </header>
+                <div class="main-box-body clearfix">
+                    <div class="form-group pull-left">
+                    </div>
+                    <div class="form-group pull-right">
+                        <a href="{{url("/admin/dashboard")}}" class="btn btn-primary">Abbrechen</a>
                         <input type="submit" class="btn btn-success" value="Speichern" />
                     </div>
-                </form>
-
+                    <div class="clearfix"></div>
+                </div>
             </div>
-        </div>
-    @endif
+        @endif
+    </form>
 
     @if($node->class->list_children)
          <div class="main-box">

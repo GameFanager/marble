@@ -127,12 +127,26 @@ class NodeClassController extends Controller
         ClassAttributeGroup::destroy($groupId);
         return redirect("/admin/nodeclass/attributes/" . $id);
     }
+
+    public function sortAttributeGroups(Request $request, $id)
+    {
+        $groups = $request->input("groups");
+        
+        foreach($groups as $groupId => $sortOrder){
+            $classAttributeGroup = ClassAttributeGroup::find($groupId);
+            $classAttributeGroup->sort_order = $sortOrder;
+            $classAttributeGroup->save();
+        }
+        die;
+    }
     
     public function editAttributes($id)
     {
         $nodeClass = NodeClass::find($id);
         $attributes = Attribute::all();
-        $classAttributeGroups = ClassAttributeGroup::where(array("class_id" => $id))->get();
+        $classAttributeGroups = ClassAttributeGroup::where(array("class_id" => $id))->get()->sortBy(function($group){
+            return $group->sort_order;
+        });
         $data = array();
         
         $data["nodeClass"] = $nodeClass;

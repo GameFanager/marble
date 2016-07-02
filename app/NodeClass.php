@@ -11,7 +11,25 @@ class NodeClass extends Model
     public function getAttributesAttribute(){
         
         $classAttributes = ClassAttribute::where(array("class_id" => $this->id))->get()->sortBy(function($nodeClass){
-            return $nodeClass->group_id . "_" . $nodeClass->sort_order;
+
+            $primarySortKey = $nodeClass->group_id;
+
+            if( $primarySortKey != 0 ){
+                $classAttributeGroup = ClassAttributeGroup::find($nodeClass->group_id);
+                $primarySortKey = $classAttributeGroup->sort_order;
+            }else{
+                $primarySortKey = 9999;
+            }
+
+            $secondarySortKey = $nodeClass->sort_order;
+
+            if( $secondarySortKey == -1 ){
+                $secondarySortKey = "00";
+            }
+
+            $sort = implode(array($primarySortKey, "_", $secondarySortKey));
+            
+            return $sort;
         });
         
         $attributes = array();

@@ -40,6 +40,7 @@ Route::get("/admin/nodeclass/deletegroup/{id}", "Admin\NodeClassController@delet
 Route::post("/admin/nodeclass/savegroup/{id}", "Admin\NodeClassController@saveGroup");
 
 Route::post("/admin/nodeclass/addattributegroup/{id}", "Admin\NodeClassController@addAttributeGroup");
+Route::post("/admin/nodeclass/sortattributegroups/{id}", "Admin\NodeClassController@sortAttributeGroups");
 Route::get("/admin/nodeclass/deleteattributegroup/{id}/{groupId}", "Admin\NodeClassController@deleteAttributeGroup");
 
 

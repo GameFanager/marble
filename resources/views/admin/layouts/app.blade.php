@@ -10,12 +10,21 @@
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/layout.min.css') }}'/>
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/elements.min.css') }}'/>
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/morris.css') }}'/>
+        <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/jquery-ui.css') }}'/>
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/custom.css') }}'/>
-        
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Titillium+Web:200,300,400' rel='stylesheet' type='text/css'>
 
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/jquery-ui.js') }}"></script>
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        </script>
 	</head>
     <body class="x-theme-blue">
         
@@ -113,10 +122,9 @@
                                             </div>
                                         </div>
                                         <div class="profile-box-content clearfix">
-                                            <ul class="menu-items">
+                                            <ul class="menu-items" id="class-attribute-groups">
                                                 @foreach($classAttributeGroups as $classAttributeGroup)
-                                                    <li class="more">
-                                                        
+                                                    <li class="more" data-group-id="{{$classAttributeGroup->id}}">
                                                         <div class="pull-left">
                                                             <i class="fa fa-folder-open-o fa-lg"></i> {{$classAttributeGroup->name}}
                                                         </div>
@@ -126,6 +134,8 @@
                                                         <div class="clearfix"></div>
                                                     </li>
                                                 @endforeach
+                                            </ul>
+                                            <ul class="menu-items">
                                                 <li>
                                                     <a data-modal-id="add-attribute-group-modal" href="javascript:$('#add-attribute-group-modal').modal('show')" class="clearfix" class="add-attribute-group">
                                                         <i class="fa fa-plus fa-lg"></i> Gruppe hinzufügen
@@ -135,6 +145,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    $( "#class-attribute-groups" ).sortable({
+                                        revert: true,
+                                        stop: function(){
+                                            var classAttributeGroups = {},
+                                                i = 0;
+
+                                            $("#class-attribute-groups > li").each(function(){
+                                                classAttributeGroups[$(this).data("group-id")] = i++;
+                                            });
+
+                                            $.post("/admin/nodeclass/sortattributegroups/{{$nodeClass->id}}", {groups:classAttributeGroups});
+                                        }
+                                    });
+                                </script>
                             @endif
                             
                             @if( isset($node) )
