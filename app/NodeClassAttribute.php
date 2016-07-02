@@ -62,6 +62,16 @@ class NodeClassAttribute extends Model
 
         return $nodeValues;
     }
+    
+    public function getProcessedValueAttribute()
+    {
+        $nodeValues = $this->value;
 
+        if( method_exists($this->class, "getValues") ){
+            $nodeValues = $this->class->getValues($nodeValues);
+        }
+
+        return $nodeValues;
+    }
 
 }

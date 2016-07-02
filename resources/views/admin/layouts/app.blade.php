@@ -86,7 +86,7 @@
                             <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
 
 
-                                @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true))
+                                @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => false))
 
 
                             </div>
@@ -108,7 +108,7 @@
                                 <div class="main-box clearfix profile-box-menu">
                                     <div class="main-box-body clearfix">
                                         <div class="profile-box-header green-bg clearfix" style="padding:0 15px 15px">
-                                            <h2>{{$node->attributes->name->value[$locale_id]}}</h2>
+                                            <h2>{{$node->name}}</h2>
                                             <div class="job-position">
                                                 {{$node->class->name}}
                                             </div>

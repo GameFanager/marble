@@ -7,7 +7,7 @@ use App\Attribute;
 use App\ClassAttribute;
 use App\NodeClassAttribute;
 use App\NodeClassGroup;
-use APp\NodeTranslation;
+use App\NodeTranslation;
 use App\Language;
 use DB;
 use Illuminate\Http\Request;
@@ -146,7 +146,7 @@ class NodeClassController extends Controller
                 $nodeTranslation->save();
             }
         }
-        
+
         return redirect("/admin/nodeclass/attributes/" . $id);
     }
 

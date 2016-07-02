@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Config;
 
 class Node extends Model
 {
@@ -29,6 +30,12 @@ class Node extends Model
     public function getClassAttribute()
     {
         return NodeClass::find($this->class_id);
+    }
+
+    public function getNameAttribute()
+    {
+        $attributes = $this->getAttributesAttribute();
+        return $attributes->name->value[Config::get("app.locale_id")];
     }
     
 }

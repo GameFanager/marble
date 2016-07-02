@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <h1>{{$node->attributes->name->value[$locale_id]}}</h1>
+    <h1>{{$node->name}}</h1>
 
     <div class="main-box">
         <header class="main-box-header clearfix">
-            <h2>{{$node->attributes->name->value[$locale_id]}}</h2>
+            <h2>{{$node->name}}</h2>
         </header>
         <div class="main-box-body clearfix">
 
@@ -49,6 +49,57 @@
     </div>
 
     <script>
+        $(".object-browser").click(function(){
+            var id = $(this).data("modal-id"),
+                inputId = $(this).data("input-id"),
+                nameId = $(this).data("input-name"),
+                $modal = $("#" + id);
+                
+            $modal.modal("show");
+            
+            $modal.find("[data-node-id]").click(function(){
+                var nodeId = $(this).data("node-id"),
+                    nodeName = $(this).data("node-name");
+                
+                $("#" + nameId).text(nodeName);
+                $("#" + inputId).val(nodeId);
+                
+                $modal.parent().find(".object-browser-delete").show();
+                
+                $modal.modal("hide");
+            });
+        });
+        
+        $(".object-browser-list").click(function(){
+            var id = $(this).data("modal-id"),
+                inputId = $(this).data("input-id"),
+                nameId = $(this).data("input-name"),
+                $modal = $("#" + id);
+                
+            $modal.modal("show");
+            
+            $modal.find("[data-node-id]").click(function(){
+                var nodeId = $(this).data("node-id"),
+                    nodeName = $(this).data("node-name");
+                
+                $("#" + nameId).text(nodeName);
+                $("#" + inputId).val(nodeId);
+                
+                $modal.parent().find(".object-browser-delete").show();
+                
+                $modal.modal("hide");
+            });
+        });
+        
+        $(".object-browser-delete").click(function(){
+            var inputId = $(this).data("input-id"),
+                nameId = $(this).data("input-name");
+            
+            $("#" + inputId).val("");
+            $("#" + nameId).text("Kein Objekt ausgewählt!");
+            $(this).hide();
+        });
+        
         $(".lang-switch").click(function(){
             var $parent = $(this).parent().parent(),
                 lang = $(this).data("lang");
