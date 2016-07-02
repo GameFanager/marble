@@ -128,11 +128,14 @@ class NodeController extends Controller
                     $nodeTranslation->language_id = $languageId;
                     $nodeTranslation->node_class_attribute_id = $nodeClassAttributeId;
                 }
-                
+
                 if( method_exists($nodeClassAttribute->class, "processValue") ){
-                    $value = $nodeClassAttribute->class->processValue($nodeTranslation->value, $value);
+                    $value = $nodeClassAttribute->class->processValue($nodeTranslation->value, $value, $nodeClassAttribute, $languageId);
                 }
 
+                if( $nodeClassAttribute->classAttribute->type->serialized_value ){
+                    $value = serialize($value);
+                }
                 
                 $nodeTranslation->value = $value;
                 $nodeTranslation->save();

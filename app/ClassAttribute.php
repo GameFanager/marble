@@ -28,7 +28,9 @@ class ClassAttribute extends Model
 
     public function getConfigurationAttribute()
     {
-        return unserialize($this->attributes["configuration"]);
+        if($this->attributes["configuration"]){
+            return unserialize($this->attributes["configuration"]);
+        }
     }
 
     public function setConfigurationAttribute($value)

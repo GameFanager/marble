@@ -1,0 +1,1 @@
+<textarea class="form-control ckeditor" name="attributes[{{$attribute->id}}][{{$locale}}]">{{$attribute->value[$locale]}}</textarea>

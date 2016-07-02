@@ -129,7 +129,7 @@ class NodeClassController extends Controller
         $nodes = Node::where(array("class_id" => $id))->get();
         $languages = Language::all();
 
-        $attribute = Attribute::find($classAttribute->attribute_id)->get()->first();
+        $attribute = Attribute::find($classAttribute->attribute_id);
 
         foreach($nodes as $node){
             $nodeClassAttribute = new NodeClassAttribute;
@@ -146,7 +146,7 @@ class NodeClassController extends Controller
                 $nodeTranslation->save();
             }
         }
-
+        
         return redirect("/admin/nodeclass/attributes/" . $id);
     }
 
@@ -179,9 +179,9 @@ class NodeClassController extends Controller
             $attribute->named_identifier = $namedIdentifiers[$attributeId];
             
             if( isset($configuration[$attributeId]) ){
-                $attribute->configuration = serialize($configuration[$attributeId]);
+                $attribute->configuration = $configuration[$attributeId];
             }
-            
+
             $attribute->save();
         }
 

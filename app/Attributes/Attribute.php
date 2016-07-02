@@ -18,6 +18,7 @@ class Attribute
     {
         $data = array();
         $data["attribute"] = $this->attribute;
+        $data["classAttribute"] = $this->classAttribute;
         $data["locale"] = $locale;
 
         return view("admin/attributes/" . $this->classAttribute->type->named_identifier . "_edit", $data);
@@ -30,7 +31,7 @@ class Attribute
         }
 
         $data = array();
-        $data["attribute"] = $this->attribute;
+        $data["classAttribute"] = $this->classAttribute;
 
         return view("admin/attributes/" . $this->classAttribute->type->named_identifier . "_config", $data);
     }

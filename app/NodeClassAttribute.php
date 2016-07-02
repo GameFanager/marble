@@ -44,7 +44,7 @@ class NodeClassAttribute extends Model
             $nodeValues[$language->id] = $nodeTranslation ? $nodeTranslation->value : "";
         }
 
-        if( ! $this->_classAttribute->translate ){
+        if( ! $this->classAttribute->translate ){
             $localeId = Config::get("app.locale_id");
 
             foreach($languages as $language){
@@ -54,7 +54,14 @@ class NodeClassAttribute extends Model
             }
         }
 
+        if( $this->classAttribute->type->serialized_value ){
+            foreach($nodeValues as &$nodeValue){
+                $nodeValue = unserialize($nodeValue);
+            }
+        }
+
         return $nodeValues;
     }
+
 
 }
