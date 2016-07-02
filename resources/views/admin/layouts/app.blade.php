@@ -22,7 +22,7 @@
         <header class="navbar" id="header-navbar">
             <div class="container">
                 <a href="admin/dashboard" id="logo" class="navbar-brand">
-                    <img src="/www_admin/images/logo.png" alt="" class="normal-logo logo-white">
+                    <img src="{{URL::asset('assets/admin/images/logo.png')}}" alt="" class="normal-logo logo-white">
                 </a>
                 <div class="clearfix">
                     <button class="navbar-toggle" data-target=".navbar-ex1-collapse" data-toggle="collapse" type="button">

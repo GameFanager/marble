@@ -22,13 +22,21 @@ Route::post("/admin/node/save/{id}", "Admin\NodeController@saveNode");
 Route::post("/admin/node/saveadded/{id}", "Admin\NodeController@saveAddedNode");
 
 Route::get("/admin/nodeclass/list", "Admin\NodeClassController@listNodeClasses");
+Route::get("/admin/nodeclass/list/{id}", "Admin\NodeClassController@listNodeClasses");
 Route::get("/admin/nodeclass/add", "Admin\NodeClassController@addNodeClass");
 Route::get("/admin/nodeclass/edit/{id}", "Admin\NodeClassController@editNodeClass");
 Route::post("/admin/nodeclass/save/{id}", "Admin\NodeClassController@saveNodeClass");
 Route::get("/admin/nodeclass/delete/{id}", "Admin\NodeClassController@deleteNodeClass");
+
 Route::get("/admin/nodeclass/attributes/{id}", "Admin\NodeClassController@editAttributes");
 Route::post("/admin/nodeclass/addattribute/{id}", "Admin\NodeClassController@addAttribute");
 Route::get("/admin/nodeclass/deleteattribute/{id}/{attribute_id}", "Admin\NodeClassController@deleteAttribute");
 Route::post("/admin/nodeclass/saveattributes/{id}", "Admin\NodeClassController@saveAttributes");
+
+
+Route::get("/admin/nodeclass/addgroup", "Admin\NodeClassController@addGroup");
+Route::get("/admin/nodeclass/editgroup/{id}", "Admin\NodeClassController@editGroup");
+Route::get("/admin/nodeclass/deletegroup/{id}", "Admin\NodeClassController@deleteGroup");
+Route::post("/admin/nodeclass/savegroup/{id}", "Admin\NodeClassController@saveGroup");
 
 App\RouteHelper::generate();

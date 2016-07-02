@@ -6,6 +6,7 @@ use App\Node;
 use App\Attribute;
 use App\ClassAttribute;
 use App\NodeClassAttribute;
+use App\NodeClassGroup;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,13 +14,24 @@ use App\Http\Controllers\Controller;
 class NodeClassController extends Controller
 {
     
-    public function listNodeClasses()
+    public function listNodeClasses($id = null)
     {
-        $nodeClasses = NodeClass::all();
+        $nodeClassGroup = null;
+
+        if( $id ){
+            $nodeClasses = NodeClass::where(array("group_id" => $id))->get();
+            $nodeClassGroup = NodeClassGroup::find($id);
+        }else{
+            $nodeClasses = NodeClass::all();
+        }
+
+        $nodeClassGroups = NodeClassGroup::all();
         
         $data = array();
         
         $data["nodeClasses"] = $nodeClasses;
+        $data["nodeClassGroups"] = $nodeClassGroups;
+        $data["nodeClassGroup"] = $nodeClassGroup;
         
         return view('admin/nodeclass/list', $data);
     }
@@ -54,10 +66,12 @@ class NodeClassController extends Controller
     public function editNodeClass($id)
     {
         $nodeClass = NodeClass::find($id);
+        $nodeClassGroups = NodeClassGroup::all();
         
         $data = array();
         
         $data["nodeClass"] = $nodeClass;
+        $data["nodeClassGroups"] = $nodeClassGroups;
         
         return view('admin/nodeclass/edit', $data);
     }
@@ -69,6 +83,7 @@ class NodeClassController extends Controller
         $nodeClass->named_identifier = $request->input("named_identifier");
         $nodeClass->icon = $request->input("icon");
         $nodeClass->allow_children = $request->input("allow_children");
+        $nodeClass->group_id = $request->input("group_id");
         $nodeClass->save();
         
         return redirect("/admin/nodeclass/list");
@@ -156,5 +171,40 @@ class NodeClassController extends Controller
         }
 
         return redirect("/admin/nodeclass/attributes/" . $id);
+    }
+
+    public function editGroup($id)
+    {
+        $nodeClassGroup = NodeClassGroup::find($id);
+
+        $data = array();
+        $data["nodeClassGroup"] = $nodeClassGroup;
+
+        return view("/admin/nodeclass/editgroup", $data);
+    }
+
+    public function saveGroup(Request $request, $id)
+    {
+        $nodeClassGroup = NodeClassGroup::find($id);
+        $nodeClassGroup->name = $request->input("name");
+        $nodeClassGroup->save();
+
+        return redirect("/admin/nodeclass/list");
+    }
+
+    public function deleteGroup($id)
+    {
+        NodeClassGroup::destroy($id);
+
+        return redirect("/admin/nodeclass/list");
+    }
+
+    public function addGroup()
+    {
+        $nodeClassGroup = new NodeClassGroup;
+        $nodeClassGroup->name = "Neue Gruppe";
+        $nodeClassGroup->save();
+
+        return redirect("/admin/nodeclass/editgroup/" . $nodeClassGroup->id);
     }
 }

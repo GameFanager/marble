@@ -62,6 +62,15 @@
                     </select>
                 </div>
             
+                <div class="form-group">
+                    <label>Gruppe</label>
+                    <select name="group_id" class="form-control">
+                        @foreach($nodeClassGroups as $nodeClassGroup)
+                            <option value="{{$nodeClassGroup->id}}" {{ $nodeClassGroup->id == $nodeClass->group_id ? 'selected="selected"' : '' }}>{{$nodeClassGroup->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            
             
                 <div class="form-group">
                     <a class="btn btn-danger" href="admin/dashboard">Abbrechen</a>
