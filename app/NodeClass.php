@@ -18,7 +18,7 @@ class NodeClass extends Model
             $attribute = Attribute::find($classAttribute->attribute_id)->first();
             
             $classAttribute->type = $attribute;
-            $classAttribute->configuration = unserialize($attribute->configuration);
+            $classAttribute->configuration = unserialize($classAttribute->configuration);
             $attributes[] = $classAttribute;
         }
         

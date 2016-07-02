@@ -35,7 +35,7 @@
                                 @endforeach
                             </div>
                         @else
-                            {!! $attribute->class->renderEdit(1)!!}
+                            {!! $attribute->class->renderEdit($locale_id)!!}
                         @endif
                     </div>
                 @endforeach

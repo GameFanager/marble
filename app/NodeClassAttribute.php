@@ -17,15 +17,16 @@ class NodeClassAttribute extends Model
 
     public function getClassAttribute()
     {
-        $classAttribute = ClassAttribute::find($this->class_attribute_id);
-        $classNameParts = explode("_", $classAttribute->type->named_identifier);
+        $attribute = Attribute::find($this->classAttribute->attribute_id);
+        
+        $classNameParts = explode("_", $attribute->named_identifier);
         $className = '\App\Attributes\\';
 
         foreach($classNameParts as $classNamePart){
             $className .= ucfirst($classNamePart);
         }
 
-        return new $className($this);
+        return new $className($this, $this->classAttribute);
     }
 
     public function getValueAttribute()

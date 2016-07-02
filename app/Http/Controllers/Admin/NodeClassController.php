@@ -136,7 +136,7 @@ class NodeClassController extends Controller
             $nodeClassAttribute->node_id = $node->id;
             $nodeClassAttribute->class_attribute_id = $classAttribute->id;
             $nodeClassAttribute->save();
-            
+
             foreach($languages as $language){
                 $nodeTranslation = new NodeTranslation;
                 $nodeTranslation->node_id = $node->id;
@@ -177,7 +177,11 @@ class NodeClassController extends Controller
             $attribute->translate = isset( $translate[$attributeId] ) ? 1 : 0;
             $attribute->sort_order = $sortOrder[$attributeId];
             $attribute->named_identifier = $namedIdentifiers[$attributeId];
-            $attribute->configuration = $configuration[$attributeId];
+            
+            if( isset($configuration[$attributeId]) ){
+                $attribute->configuration = serialize($configuration[$attributeId]);
+            }
+            
             $attribute->save();
         }
 

@@ -29,7 +29,7 @@
             @if($attribute->locked)
                 @continue
             @endif 
-            
+
             <div class="main-box"  style="position: relative">
                 <header class="main-box-header clearfix">
                     <h2><b>{{$attribute->name}}</b> &lt; {{$attribute->type->name}} &gt; <input style="width:55px; display: inline-block;" type="text" name="sort_order[{{$attribute->id}}]" value="{{$attribute->sort_order}}" class="form-control"/></h2>
@@ -54,7 +54,10 @@
                             <input type="checkbox" name="translate[{{$attribute->id}}]" value="1" {{ $attribute->translate ? 'checked="checked"' : '' }} /> &nbsp; Übersetzbar?
                         </label>
                     </div>
-                    <input type="hidden" name="configuration[{{$attribute->id}}]" value="" />
+
+                    @if(method_exists($attribute->class, "renderConfiguration"))
+                        {!! $attribute->class->renderConfiguration() !!}
+                    @endif
                 </div>
             </div>
         @endforeach

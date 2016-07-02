@@ -13,4 +13,26 @@ class ClassAttribute extends Model
     {
         return Attribute::find($this->attribute_id);
     }
+
+    public function getClassAttribute()
+    {
+        $classNameParts = explode("_", $this->type->named_identifier);
+        $className = '\App\Attributes\\';
+
+        foreach($classNameParts as $classNamePart){
+            $className .= ucfirst($classNamePart);
+        }
+
+        return new $className(null, $this);
+    }
+
+    public function getConfigurationAttribute()
+    {
+        return unserialize($this->attributes["configuration"]);
+    }
+
+    public function setConfigurationAttribute($value)
+    {
+        $this->attributes["configuration"] = serialize($value);
+    }
 }
