@@ -18,6 +18,18 @@ class FrontController extends Controller
     public function viewNode($id, $languageId)
     {
         $node = Node::find($id);
-        die($node->attributes->content->value[$languageId]);
+        dump($node->attributes->related_items->processedValue[1][0]->name);
+        die();
+    }
+
+    public function redirectLocale()
+    {
+        $language = Language::find(Config::get("app.locale_id"));
+        return redirect("/" . $language->code . "/");
+    }
+
+    public function viewIndexForLocale($language)
+    {
+        die("locale: " . $language->code);
     }
 }

@@ -39,4 +39,6 @@ Route::get("/admin/nodeclass/editgroup/{id}", "Admin\NodeClassController@editGro
 Route::get("/admin/nodeclass/deletegroup/{id}", "Admin\NodeClassController@deleteGroup");
 Route::post("/admin/nodeclass/savegroup/{id}", "Admin\NodeClassController@saveGroup");
 
+Route::get("/", "FrontController@redirectLocale");
+
 App\RouteHelper::generate();

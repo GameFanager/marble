@@ -22,6 +22,9 @@ class RouteHelper{
 
             self::generateRoutes($routes, $prefix, $nodes, $language);
 
+            \Route::get($prefix, function() use($controller, $language){
+                $controller->viewIndexForLocale($language);
+            });
         }
 
         foreach($routes as $languageId => $languageRoute){
