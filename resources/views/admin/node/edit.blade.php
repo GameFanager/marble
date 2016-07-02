@@ -179,6 +179,13 @@
             $name.remove();
         });
 
+        $(".image-delete").click(function(){
+            var $parent = $(this).parent();
+
+            $parent.html("Kein Bild ausgewählt...");
+            $parent.parent().find('input[type="hidden"]').val("");
+        });
+
         $(".lang-switch").click(function(){
             var $parent = $(this).parent().parent(),
                 lang = $(this).data("lang");

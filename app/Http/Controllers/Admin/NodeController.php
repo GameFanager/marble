@@ -39,24 +39,11 @@ class NodeController extends Controller
 
         Node::destroy($id);
 
-        $nodeClassAttributes = NodeClassAttribute::whereNodeId($id);
-
-
-        /* DDFDF
-
-
-
-
-
-        GEHT NIT
-
-
-
-        **/
+        $nodeClassAttributes = NodeClassAttribute::where(array("node_id" => $id))->get();
         foreach($nodeClassAttributes as $nodeClassAttribute)
             NodeClassAttribute::destroy($nodeClassAttribute->id);
 
-        $nodeTranslations = NodeTranslation::whereNodeId($id);
+        $nodeTranslations = NodeTranslation::where(array("node_id" => $id))->get();
         foreach($nodeTranslations as $nodeTranslation)
             NodeTranslation::destroy($nodeTranslation->id);
 
@@ -147,7 +134,13 @@ class NodeController extends Controller
                 }
 
                 if( method_exists($nodeClassAttribute->class, "processValue") ){
-                    $value = $nodeClassAttribute->class->processValue($nodeTranslation->value, $value, $nodeClassAttribute, $languageId);
+                    $oldValue = $nodeTranslation->value;
+
+                    if( $nodeClassAttribute->classAttribute->type->serialized_value ){
+                        $oldValue = unserialize($oldValue);
+                    }
+
+                    $value = $nodeClassAttribute->class->processValue($oldValue, $value, $nodeClassAttribute, $languageId);
                 }
 
                 if( $nodeClassAttribute->classAttribute->type->serialized_value ){
