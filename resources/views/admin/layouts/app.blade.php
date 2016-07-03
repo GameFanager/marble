@@ -58,14 +58,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="btn" href="admin/users">
+                                <a class="btn" href="{{url("admin/user/list")}}">
                                     <i class="fa fa-user">
                                     </i>
                                     <span>Benutzer</span>
                                 </a>
                             </li>
                             <li>
-                                <a class="btn" href="admin/groups">
+                                <a class="btn" href="{{url("admin/usergroup/list")}}">
                                     <i class="fa fa-users">
                                     </i>
                                     <span>Benutzergruppen</span>

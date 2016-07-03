@@ -114,9 +114,12 @@ class NodeClassController extends Controller
 
     public function addAttributeGroup(Request $request, $id)
     {
+        $groups = ClassAttributeGroup::where(array("class_id" => $id))->get();
+        
         $group = new ClassAttributeGroup;
         $group->class_id = $id;
         $group->name = $request->input("name");
+        $group->sort_order = count($groups);
         $group->save();
 
         return redirect("/admin/nodeclass/attributes/" . $id);

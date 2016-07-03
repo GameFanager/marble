@@ -49,6 +49,13 @@ Route::get("/admin/auth/login", "Auth\AuthController@getLogin");
 Route::get("/admin/auth/logout", "Auth\AuthController@getLogout");
 Route::post("/admin/auth/login", "Auth\AuthController@postLogin");
 
+
+Route::get("/admin/user/list", "Admin\UserController@listUsers");
+Route::get("/admin/user/add", "Admin\UserController@addUser");
+Route::post("/admin/user/save/{id}", "Admin\UserController@saveUser");
+Route::get("/admin/user/edit/{id}", "Admin\UserController@editUser");
+Route::get("/admin/user/delete/{id}", "Admin\UserController@deleteUser");
+
 Route::get("/", "FrontController@redirectLocale");
 
 App\RouteHelper::generate();
