@@ -74,9 +74,17 @@ class NodeController extends Controller
 
     public function deleteNode($id)
     {
+
         $node = Node::find($id);
         $parentId = $node->parent_id;
 
+        $this->deleteNodeAndChildNodes($id);
+
+        return redirect("/admin/node/edit/" . $parentId);
+    }
+
+    private function deleteNodeAndChildNodes($id)
+    {
         Node::destroy($id);
 
         $nodeClassAttributes = NodeClassAttribute::where(array("node_id" => $id))->get();
@@ -87,7 +95,11 @@ class NodeController extends Controller
         foreach($nodeTranslations as $nodeTranslation)
             NodeTranslation::destroy($nodeTranslation->id);
 
-        return redirect("/admin/node/edit/" . $parentId);
+        $childNodes = Node::where(array("parent_id" => $id))->get();
+
+        foreach($childNodes as $childNode){
+            $this->deleteNodeAndChildNodes($childNode->id);
+        }
     }
 
     public function addNode($id)
