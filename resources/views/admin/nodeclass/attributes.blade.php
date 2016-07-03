@@ -8,7 +8,7 @@
         <div class="pull-right">
             <form action="{{url("admin/nodeclass/addattribute/" . $nodeClass->id) }}" method="post">
                 {!! csrf_field() !!}
-                <input style="margin-right:15px" type="submit" class="btn btn-success pull-right" value="Attribut hinzufügen" />
+                <input style="margin-right:15px" type="submit" class="btn btn-xs btn-success pull-right" value="Attribut hinzufügen" />
                 <select name="type" class="form-control pull-right" style="width: auto; margin-right: 30px">
                     @foreach($attributes as $attribute)
                         <option value="{{$attribute->id}}">{{$attribute->name}}</option>
@@ -71,17 +71,24 @@
                         <div class="main-box-body clearfix">
                             @if($attribute->named_identifier != "name")
                                 <div style="position: absolute; top: 10px; right: 10px">
-                                    <a href="{{url("admin/nodeclass/deleteattribute/" . $nodeClass->id . "/" . $attribute->id)}}" class="btn btn-danger">Löschen</a>
+                                    <a href="{{url("admin/nodeclass/deleteattribute/" . $nodeClass->id . "/" . $attribute->id)}}" class="btn btn-xs btn-danger">Löschen</a>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" class="form-control"/>
-                                    
-                                </div>
-                                <div class="form-group">
-                                    <label>Identifier</label>
-                                    <input type="text" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" class="form-control"/>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" class="form-control"/>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Identifier</label>
+                                            <input type="text" name="named_identifier[{{$attribute->id}}]" value="{{$attribute->named_identifier}}" class="form-control"/>
+                                        </div>
+                                    </div>
                                 </div>
                             @else 
                                 <input type="hidden" name="name[{{$attribute->id}}]" value="{{$attribute->name}}" />
