@@ -4,10 +4,12 @@
 
     <h1>
     	Klassen
-        <div class="pull-right">
-    		<a href="{{ url("admin/nodeclass/addgroup") }}" class="btn btn-xs btn-success">Klassegruppe hinzufügen</a>
-    		<a href="{{ url("admin/nodeclass/add") }}" class="btn btn-xs btn-success">Klasse hinzufügen</a>
-        </div>
+        @if(App\PermissionHelper::allowed("create_class"))
+            <div class="pull-right">
+                <a href="{{ url("admin/nodeclass/addgroup") }}" class="btn btn-xs btn-success">Klassegruppe hinzufügen</a>
+                <a href="{{ url("admin/nodeclass/add") }}" class="btn btn-xs btn-success">Klasse hinzufügen</a>
+            </div>
+        @endif
     </h1>
 
     <div class="main-box">
@@ -27,12 +29,20 @@
                         @foreach($nodeClassGroups as $_nodeClassGroup)
                             <tr>
                                 <td>
-                                    <a href="{{ url("admin/nodeclass/list/" . $_nodeClassGroup->id) }}">{{$_nodeClassGroup->name}}</a>
+                                    @if(App\PermissionHelper::allowed("edit_class"))
+                                        <a href="{{ url("admin/nodeclass/list/" . $_nodeClassGroup->id) }}">{{$_nodeClassGroup->name}}</a>
+                                    @else
+                                        {{$_nodeClassGroup->name}}
+                                    @endif
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <a href="{{ url("admin/nodeclass/editgroup/" . $_nodeClassGroup->id) }}" class="btn btn-xs btn-info">Bearbeiten</a>
-                                        <a href="{{ url("admin/nodeclass/deletegroup/" . $_nodeClassGroup->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
+                                        @if(App\PermissionHelper::allowed("edit_class"))
+                                            <a href="{{ url("admin/nodeclass/editgroup/" . $_nodeClassGroup->id) }}" class="btn btn-xs btn-info">Bearbeiten</a>
+                                        @endif
+                                        @if(App\PermissionHelper::allowed("delete_class"))
+                                            <a href="{{ url("admin/nodeclass/deletegroup/" . $_nodeClassGroup->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -65,12 +75,20 @@
                         @foreach($nodeClasses as $nodeClass)
                             <tr>
                                 <td>
-                                    <a href="{{ url("admin/nodeclass/attributes/" . $nodeClass->id) }}">{{$nodeClass->name}}</a>
+                                    @if(App\PermissionHelper::allowed("edit_class"))
+                                        <a href="{{ url("admin/nodeclass/attributes/" . $nodeClass->id) }}">{{$nodeClass->name}}</a>
+                                    @else
+                                        {{$nodeClass->name}}
+                                    @endif
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <a href="{{ url("admin/nodeclass/edit/" . $nodeClass->id) }}" class="btn btn-info btn-xs">Bearbeiten</a>
-                                        <a href="{{ url("admin/nodeclass/delete/" . $nodeClass->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
+                                        @if(App\PermissionHelper::allowed("edit_class"))
+                                            <a href="{{ url("admin/nodeclass/edit/" . $nodeClass->id) }}" class="btn btn-info btn-xs">Bearbeiten</a>
+                                        @endif
+                                        @if(App\PermissionHelper::allowed("delete_class"))
+                                            <a href="{{ url("admin/nodeclass/delete/" . $nodeClass->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

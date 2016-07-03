@@ -34,6 +34,14 @@
                     <input type="password" class="form-control" name="password" value="" />
                 </div>
 
+                <div class="form-group">
+                    <label>Gruppe</label>
+                    <select name="group_id" class="form-control">
+                        @foreach($userGroups as $userGroup)
+                            <option value="{{$userGroup->id}}" {{ $userGroup->id == $user->group_id ? 'selected="selected"' : '' }}>{{$userGroup->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
 
             </div>
         </div>

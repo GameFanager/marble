@@ -34,7 +34,6 @@ Route::post("/admin/nodeclass/addattribute/{id}", "Admin\NodeClassController@add
 Route::get("/admin/nodeclass/deleteattribute/{id}/{attribute_id}", "Admin\NodeClassController@deleteAttribute");
 Route::post("/admin/nodeclass/saveattributes/{id}", "Admin\NodeClassController@saveAttributes");
 
-
 Route::get("/admin/nodeclass/addgroup", "Admin\NodeClassController@addGroup");
 Route::get("/admin/nodeclass/editgroup/{id}", "Admin\NodeClassController@editGroup");
 Route::get("/admin/nodeclass/deletegroup/{id}", "Admin\NodeClassController@deleteGroup");
@@ -44,17 +43,21 @@ Route::post("/admin/nodeclass/addattributegroup/{id}", "Admin\NodeClassControlle
 Route::post("/admin/nodeclass/sortattributegroups/{id}", "Admin\NodeClassController@sortAttributeGroups");
 Route::get("/admin/nodeclass/deleteattributegroup/{id}/{groupId}", "Admin\NodeClassController@deleteAttributeGroup");
 
-
 Route::get("/admin/auth/login", "Auth\AuthController@getLogin");
 Route::get("/admin/auth/logout", "Auth\AuthController@getLogout");
 Route::post("/admin/auth/login", "Auth\AuthController@postLogin");
-
 
 Route::get("/admin/user/list", "Admin\UserController@listUsers");
 Route::get("/admin/user/add", "Admin\UserController@addUser");
 Route::post("/admin/user/save/{id}", "Admin\UserController@saveUser");
 Route::get("/admin/user/edit/{id}", "Admin\UserController@editUser");
 Route::get("/admin/user/delete/{id}", "Admin\UserController@deleteUser");
+
+Route::get("/admin/usergroup/list", "Admin\UserGroupController@listGroups");
+Route::get("/admin/usergroup/add", "Admin\UserGroupController@addGroup");
+Route::post("/admin/usergroup/save/{id}", "Admin\UserGroupController@saveGroup");
+Route::get("/admin/usergroup/edit/{id}", "Admin\UserGroupController@editGroup");
+Route::get("/admin/usergroup/delete/{id}", "Admin\UserGroupController@deleteGroup");
 
 Route::get("/", "FrontController@redirectLocale");
 

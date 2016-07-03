@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\User;
+use App\UserGroup;
+use App\PermissionHelper;
 use Illuminate\Hashing\BcryptHasher;
 
 use App\Http\Controllers\Controller;
@@ -36,6 +38,7 @@ class UserController extends Controller
     {
         $data = array();
         $data["user"] = User::find($id);
+        $data["userGroups"] = UserGroup::all();
 
         return view("/admin/user/edit", $data);
     }
@@ -45,6 +48,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->name = $request->input("name");
         $user->email = $request->input("email");
+        $user->group_id = $request->input("group_id");
 
         if( $request->input("password") ){
             $hasher = new BcryptHasher;

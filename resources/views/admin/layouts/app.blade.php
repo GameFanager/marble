@@ -50,27 +50,33 @@
                                     <span>Dashboard</span>
                                 </a>
                             </li>
-                            <li>
-                                <a class="btn" href="{{url("admin/nodeclass/list")}}">
-                                    <i class="fa fa-folder">
-                                    </i>
-                                    <span>Klassen</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="btn" href="{{url("admin/user/list")}}">
-                                    <i class="fa fa-user">
-                                    </i>
-                                    <span>Benutzer</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="btn" href="{{url("admin/usergroup/list")}}">
-                                    <i class="fa fa-users">
-                                    </i>
-                                    <span>Benutzergruppen</span>
-                                </a>
-                            </li>
+                            @if(App\PermissionHelper::allowed("list_class"))
+                                <li>
+                                    <a class="btn" href="{{url("admin/nodeclass/list")}}">
+                                        <i class="fa fa-folder">
+                                        </i>
+                                        <span>Klassen</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if(App\PermissionHelper::allowed("list_user"))
+                                <li>
+                                    <a class="btn" href="{{url("admin/user/list")}}">
+                                        <i class="fa fa-user">
+                                        </i>
+                                        <span>Benutzer</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if(App\PermissionHelper::allowed("list_group"))
+                                <li>
+                                    <a class="btn" href="{{url("admin/usergroup/list")}}">
+                                        <i class="fa fa-users">
+                                        </i>
+                                        <span>Benutzergruppen</span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                     <div class="nav-no-collapse pull-right" id="header-nav">

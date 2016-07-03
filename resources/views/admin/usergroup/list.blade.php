@@ -3,10 +3,10 @@
 @section('content')
 
     <h1>
-    	Benutzer
-        @if(App\PermissionHelper::allowed("create_user"))
+    	Benutzergruppen
+        @if(App\PermissionHelper::allowed("create_group"))
             <div class="pull-right">
-                <a href="{{ url("admin/user/add") }}" class="btn btn-xs btn-success">User hinzufügen</a>
+                <a href="{{ url("admin/usergroup/add") }}" class="btn btn-xs btn-success">Benutzergruppe hinzufügen</a>
             </div>
         @endif
     </h1>
@@ -15,7 +15,7 @@
     <div class="main-box">
         <header class="main-box-header clearfix">
             <h2>
-                Benutzer
+                Benutzergruppen
             </h2>
         </header>
         <div class="main-box-body clearfix">        
@@ -28,24 +28,22 @@
                         </tr>
                     </thead>
                     <tbody> 
-                        @foreach($users as $user)
+                        @foreach($groups as $group)
                             <tr>
                                 <td>
-
-                                    @if(App\PermissionHelper::allowed("edit_user"))
-                                        <a href="{{ url("admin/user/edit/" . $user->id) }}">{{$user->name}}</a>
+                                    @if(App\PermissionHelper::allowed("edit_group"))
+                                        <a href="{{ url("admin/usergroup/edit/" . $group->id) }}">{{$group->name}}</a>
                                     @else
-                                        {{$user->name}}
+                                        {{$group->name}}
                                     @endif
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        @if(App\PermissionHelper::allowed("edit_user"))
-                                            <a href="{{ url("admin/user/edit/" . $user->id) }}" class="btn btn-info btn-xs">Bearbeiten</a>
+                                        @if(App\PermissionHelper::allowed("edit_group"))
+                                            <a href="{{ url("admin/usergroup/edit/" . $group->id) }}" class="btn btn-info btn-xs">Bearbeiten</a>
                                         @endif
-
-                                        @if(App\PermissionHelper::allowed("delete_user"))
-                                            <a href="{{ url("admin/user/delete/" . $user->id) }}" onclick="return confirm('Benutzer wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
+                                        @if($group->id != 0 and App\PermissionHelper::allowed("delete_group"))
+                                            <a href="{{ url("admin/usergroup/delete/" . $group->id) }}" onclick="return confirm('Benutzergruppe wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
                                         @endif
                                     </div>
                                 </td>
