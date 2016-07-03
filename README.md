@@ -1,8 +1,10 @@
-# Marble CMS
+Marble CMS
+===
 
 Simple, object-oriented CMS based on Laravel 5.
 
-## Documentation
+Documentation
+---
 
 Work in progress.
 
@@ -10,9 +12,44 @@ Work in progress.
 
 #### Node
 
+A `Node` is an instantiated `NodeClass`. 
+
+##### Attributes
+
+* id `int`
+* class_id `NodeClass`
+* parent_id `Node`
+* created_at `Datetime`
+* updated_at `Datetime`
+* sort_order `int`
+
 #### NodeClass
 
+A `NodeClass` is a blueprint object for a `Node`. 
+
+##### Attributes
+
+* id `int`
+* name `string`
+* allow_children `int`
+* named_identifier `string`
+* created_at `Datetime`
+* updated_at `Datetime`
+* icon `string`
+* group_id `NodeClassGroup`
+* list_children `int`
+* locked `int`
+
+
 #### NodeClassGroup
+
+A `NodeClassGroup` is a group of `NodeClass` objects. 
+You can group your `NodeClass` objects in types, for example `System` classes (Folders), `Content` classes (News Article, Simple pages,... ).
+
+##### Attributes
+
+* id `int`
+* name `string`
 
 #### NodeClassAttribute
 
@@ -26,25 +63,30 @@ Work in progress.
 
 #### Language
 
-
+---
 
 ### Classes
 
 #### Creating a new Class
 
+---
+
 ### Attributes
 
 #### Creating a new Attribute
+
+---
 
 ### Nodes
 
 #### Creating a new Node
 
 
+---
 
 
-
-## Screenshots
+Screenshots
+---
 
 ### Simple 
 
