@@ -1,6 +1,47 @@
 # Marble CMS
 
-Simple, flexible CMS based on Laravel 5.
+Simple, object-oriented CMS based on Laravel 5.
+
+## Documentation
+
+Work in progress.
+
+### General Information
+
+#### Node
+
+#### NodeClass
+
+#### NodeClassGroup
+
+#### NodeClassAttribute
+
+#### NodeTranslation
+
+#### ClassAttribute
+
+#### ClassAttributeGroup
+
+#### Attribute
+
+#### Language
+
+
+
+### Classes
+
+#### Creating a new Class
+
+### Attributes
+
+#### Creating a new Attribute
+
+### Nodes
+
+#### Creating a new Node
+
+
+
 
 
 ## Screenshots
@@ -15,8 +56,6 @@ Simple node object in edit mode.
 Simple class in edit mode.
 
 ### More Complex 
-
-
 
 ![More complex Node Screenshot](https://raw.githubusercontent.com/stdclass/marble/master/doc/screenshots/complex-node.png)
 More complex node object in edit mode.

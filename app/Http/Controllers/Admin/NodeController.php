@@ -192,7 +192,12 @@ class NodeController extends Controller
                         $oldValue = unserialize($oldValue);
                     }
 
-                    $value = $nodeClassAttribute->class->processValue($oldValue, $value, $nodeClassAttribute, $languageId);
+                    $value = $nodeClassAttribute->class->processValue(
+                        $oldValue, 
+                        $value, 
+                        $nodeClassAttribute, 
+                        $languageId
+                    );
                 }
 
                 if( $nodeClassAttribute->classAttribute->type->serialized_value ){
