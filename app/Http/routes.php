@@ -20,6 +20,7 @@ Route::get("/admin/node/add/{id}", "Admin\NodeController@addNode");
 Route::get("/admin/node/delete/{id}", "Admin\NodeController@deleteNode");
 Route::post("/admin/node/save/{id}", "Admin\NodeController@saveNode");
 Route::post("/admin/node/saveadded/{id}", "Admin\NodeController@saveAddedNode");
+Route::post("/admin/node/sort", "Admin\NodeController@sortNodes");
 
 Route::get("/admin/nodeclass/list", "Admin\NodeClassController@listNodeClasses");
 Route::get("/admin/nodeclass/list/{id}", "Admin\NodeClassController@listNodeClasses");
@@ -43,6 +44,10 @@ Route::post("/admin/nodeclass/addattributegroup/{id}", "Admin\NodeClassControlle
 Route::post("/admin/nodeclass/sortattributegroups/{id}", "Admin\NodeClassController@sortAttributeGroups");
 Route::get("/admin/nodeclass/deleteattributegroup/{id}/{groupId}", "Admin\NodeClassController@deleteAttributeGroup");
 
+
+Route::get("/admin/auth/login", "Auth\AuthController@getLogin");
+Route::get("/admin/auth/logout", "Auth\AuthController@getLogout");
+Route::post("/admin/auth/login", "Auth\AuthController@postLogin");
 
 Route::get("/", "FrontController@redirectLocale");
 

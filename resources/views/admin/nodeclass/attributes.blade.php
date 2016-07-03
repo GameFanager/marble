@@ -144,7 +144,6 @@
                         });
 
                     });
-                    //$.post("/admin/nodeclass/sortattributegroups/{{$nodeClass->id}}", {groups:classAttributeGroups});
                 }
             });
         </script>

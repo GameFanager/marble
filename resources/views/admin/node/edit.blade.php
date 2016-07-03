@@ -87,9 +87,9 @@
                                 <th class="text-right"><span>&nbsp;</span></th>
                             </tr>
                         </thead>
-                        <tbody> 
+                        <tbody id="sortable-children"> 
                             @foreach($childNodes as $childNode)
-                                <tr>
+                                <tr data-node-id="{{$childNode->id}}">
                                     <td>
                                         <a href="{{ url("admin/node/edit/" . $childNode->id) }}"><i class="fa fa-{{$childNode->class->icon}}" ></i> {{$childNode->name}}</a>
                                     </td>
@@ -103,6 +103,25 @@
                             @endforeach
                         </tbody>
                     </table>
+
+
+                    <script>
+                        $( "#sortable-children" ).sortable({
+                            revert: true,
+                            stop: function(){
+                                var $childNodes = $("#sortable-children > tr"),
+                                    sortOrder = 0,
+                                    childNodes = {};
+
+                                $childNodes.each(function(){
+                                    childNodes[$(this).data("node-id")] = sortOrder++;
+
+                                });
+                                
+                                $.post("/admin/node/sort", {nodes:childNodes});
+                            }
+                        });
+                    </script>
                     @if( ! count($childNodes) )
                         <center><i>Keine Kindelemente verfügbar...</i></center>
                         <br />

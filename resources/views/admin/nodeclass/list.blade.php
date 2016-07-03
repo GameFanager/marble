@@ -24,15 +24,15 @@
                         </tr>
                     </thead>
                     <tbody> 
-                        @foreach($nodeClassGroups as $nodeClassGroup)
+                        @foreach($nodeClassGroups as $_nodeClassGroup)
                             <tr>
                                 <td>
-                                    <a href="{{ url("admin/nodeclass/list/" . $nodeClassGroup->id) }}">{{$nodeClassGroup->name}}</a>
+                                    <a href="{{ url("admin/nodeclass/list/" . $_nodeClassGroup->id) }}">{{$_nodeClassGroup->name}}</a>
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
-                                        <a href="{{ url("admin/nodeclass/editgroup/" . $nodeClassGroup->id) }}" class="btn btn-xs btn-info">Bearbeiten</a>
-                                        <a href="{{ url("admin/nodeclass/deletegroup/" . $nodeClassGroup->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
+                                        <a href="{{ url("admin/nodeclass/editgroup/" . $_nodeClassGroup->id) }}" class="btn btn-xs btn-info">Bearbeiten</a>
+                                        <a href="{{ url("admin/nodeclass/deletegroup/" . $_nodeClassGroup->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
                                     </div>
                                 </td>
                             </tr>

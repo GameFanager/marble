@@ -10,11 +10,16 @@ use App\NodeTranslation;
 use App\NodeClass;
 use DB;
 use Config;
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class NodeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function editNode($id)
     {
@@ -46,10 +51,25 @@ class NodeController extends Controller
         $data["languages"] = $languages;
 
         if($node->class->list_children){
-            $data["childNodes"] = Node::where(array("parent_id" => $id))->get();
+            $data["childNodes"] = Node::where(array("parent_id" => $id))->get()->sortBy(function($node){
+                return $node->sort_order;
+            });
         }
 
         return view('admin/node/edit', $data);
+    }
+
+    public function sortNodes(Request $request)
+    {
+
+        $nodes = $request->input("nodes");
+        
+        foreach($nodes as $nodeId => $sortOrder){
+            $node = Node::find($nodeId);
+            $node->sort_order = $sortOrder;
+            $node->save();
+        }
+        die;
     }
 
     public function deleteNode($id)

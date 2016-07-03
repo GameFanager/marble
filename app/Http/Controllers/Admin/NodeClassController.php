@@ -16,6 +16,10 @@ use App\Http\Controllers\Controller;
 
 class NodeClassController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     
     public function listNodeClasses($id = null)
     {

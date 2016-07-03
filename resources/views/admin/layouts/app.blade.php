@@ -76,7 +76,7 @@
                     <div class="nav-no-collapse pull-right" id="header-nav">
                         <ul class="nav navbar-nav pull-right">
                             <li class="hidden-xxs">
-                                <a class="btn" href="admin/auth/logout">
+                                <a class="btn" href="{{url("/admin/auth/logout")}}">
                                     <i class="fa fa-power-off">
                                     </i>
                                 </a>

@@ -1,6 +1,6 @@
 
 @if( $isRoot )
-    <ul class="nav nav-pills nav-stacked">
+    <ul class="nav nav-pills nav-stacked sidebar-tree">
 @else 
     <ul class="submenu" style="display:block">
 @endif

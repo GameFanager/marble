@@ -12,7 +12,9 @@ class TreeHelper{
 
     private static function getChildren($parentId)
     {
-        $children = Node::where(array("parent_id" => $parentId))->get();
+        $children = Node::where(array("parent_id" => $parentId))->get()->sortBy(function($node){
+            return $node->sort_order;
+        });
 
         foreach($children as &$child){
             $child->children = self::getChildren($child->id);
