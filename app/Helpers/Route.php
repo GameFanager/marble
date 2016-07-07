@@ -5,6 +5,7 @@ namespace App;
 use App\NodeHelper;
 use Config;
 use App\Language;
+use App\Permission;
 use App\Http\Controllers\FrontController;
 
 class RouteHelper{
@@ -12,6 +13,7 @@ class RouteHelper{
     public static function generate()
     {
         $rootNode = NodeHelper::getSystemNode("pages");
+        
         $nodes = self::getChildren($rootNode->id);
         $languages = Language::all();
         $routes = array();

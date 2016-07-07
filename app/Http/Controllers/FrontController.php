@@ -20,15 +20,24 @@ class FrontController extends Controller
 
     public function viewNode($id, $languageId)
     {
-        $user = new User;
-        $user->email = "phillip@dornauer-2.cc";
-        $user->password = "fuckyou2";
-        $user->name = "PD 1";
-        $user->save();
-        die;
+        
         $node = Node::find($id);
-        dump($node->name);
-        die();
+
+        $classNameParts = explode("_", $node->class->named_identifier);
+        $className = '\App\Http\Controllers\NodeClasses\\';
+
+        foreach($classNameParts as $classNamePart){
+            $className .= ucfirst($classNamePart);
+        }
+
+        $className .= "Controller";
+
+        if( class_exists($className) ){
+            $controller = new $className;
+            return $controller->viewNode($id, $languageId);
+        }
+
+        die("no class controller defined");
     }
 
     public function redirectLocale()

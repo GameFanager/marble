@@ -45,6 +45,8 @@ class UserGroupController extends Controller
     {
         $group = UserGroup::find($id);
         $group->name = $request->input("name");
+        $group->entry_node_id = $request->input("entry_node_id");
+
         $group->create_user = $request->input("create_user");
         $group->create_group = $request->input("create_group");
         $group->create_class = $request->input("create_class");

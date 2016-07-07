@@ -5,6 +5,7 @@ use App\Node;
 use App\NodeClassAttribute;
 use App\ClassAttributeGroup;
 use App\ClassAttribute;
+use App\UserGroup;
 use App\Language;
 use App\NodeTranslation;
 use App\NodeClass;
@@ -87,6 +88,12 @@ class NodeController extends Controller
     {
         Node::destroy($id);
 
+        $userGroups = UserGroup::where(array("entry_node_id" => $id))->get();
+        foreach($userGroups as $userGroup){
+            $userGroup->entry_node_id = 0;
+            $userGroup->save();
+        }
+        
         $nodeClassAttributes = NodeClassAttribute::where(array("node_id" => $id))->get();
         foreach($nodeClassAttributes as $nodeClassAttribute)
             NodeClassAttribute::destroy($nodeClassAttribute->id);

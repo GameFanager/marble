@@ -11,7 +11,7 @@
         {!! csrf_field() !!}
 
         @if( ! $node->class->locked )
-        
+
             @foreach($groupedNodeAttributes as $classAttributeGroup)
                     
                 <div class="main-box">

@@ -28,8 +28,7 @@ class Permission
         "/admin/usergroup/list" => array("list_group"),
         "/admin/usergroup/edit" => array("edit_group"),
         "/admin/usergroup/delete" => array("delete_group"),
-        "/admin/usergroup/add" => array("create_group"),
-
+        "/admin/usergroup/add" => array("create_group")
     );
 
     public function handle($request, Closure $next)

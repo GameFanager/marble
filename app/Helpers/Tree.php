@@ -7,7 +7,15 @@ use Config;
 class TreeHelper{
     public static function generate()
     {
-        return self::getChildren(Config::get("app.entry_node_id"));
+
+        // Auth::user not instantiated at this point...
+        $entryNodeId = 1; //PermissionHelper::entryNodeId();
+
+        if( ! $entryNodeId ){
+            $entryNodeId = Config::get("app.entry_node_id");
+        }
+
+        return self::getChildren($entryNodeId);
     }
 
     private static function getChildren($parentId)
