@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Config;
-
 class TreeHelper
 {
     private static $tree = array();
@@ -18,10 +16,6 @@ class TreeHelper
 
         if (isset(self::$tree[$entryNodeId])) {
             return self::$tree[$entryNodeId];
-        }
-
-        if ($entryNodeId === -1) {
-            $entryNodeId = Config::get('app.entry_node_id');
         }
 
         self::$tree[$entryNodeId] = self::getChildren($entryNodeId);

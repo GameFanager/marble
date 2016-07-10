@@ -7,7 +7,6 @@ use App\Language;
 use App\NodeHelper;
 use Config;
 
-
 class FrontController extends Controller
 {
     public function viewNode($id, $languageId)

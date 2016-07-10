@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use Config;
 
 class PermissionHelper
 {
@@ -18,8 +19,13 @@ class PermissionHelper
     {
         $user = Auth::user();
         $group = UserGroup::find($user->group_id);
+        $entryNodeId = $group->entry_node_id;
 
-        return $group->entry_node_id;
+        if ($entryNodeId === -1) {
+            $entryNodeId = Config::get('app.entry_node_id');
+        }
+
+        return $entryNodeId;
     }
 
     public static function allowedClass($classId)

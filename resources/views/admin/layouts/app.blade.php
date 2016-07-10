@@ -30,7 +30,7 @@
         
         <header class="navbar" id="header-navbar">
             <div class="container">
-                <a href="admin/dashboard" id="logo" class="navbar-brand">
+                <a href="{{url("admin/dashboard")}}" id="logo" class="navbar-brand">
                     <img src="{{URL::asset('assets/admin/images/logo.png')}}" alt="" class="normal-logo logo-white">
                 </a>
                 <div class="clearfix">

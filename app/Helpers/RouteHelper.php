@@ -23,7 +23,7 @@ class RouteHelper
             self::generateRoutes($routes, $prefix, $nodes, $language);
 
             if (Config::get('app.uri_locale_prefix')) {
-                \Route::get($prefix, function () use ($controller,$language) {
+                \Route::get($prefix, function () use ($controller, $language) {
                     $controller->viewIndexForLocale($language);
                 });
             }
@@ -31,7 +31,7 @@ class RouteHelper
 
         foreach ($routes as $languageId => $languageRoute) {
             foreach ($languageRoute as $nodeId => $route) {
-                \Route::get($route, function () use ($controller, $nodeId,$languageId) {
+                \Route::get($route, function () use ($controller, $nodeId, $languageId) {
                     $controller->viewNode($nodeId, $languageId);
                 });
             }

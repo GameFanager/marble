@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\TreeHelper;
+use App\PermissionHelper;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
@@ -14,8 +14,8 @@ class DashboardController extends Controller
 
     public function viewDashboard()
     {
-        $nodeTree = TreeHelper::generate();
+        $entryNodeId = PermissionHelper::entryNodeId();
 
-        return redirect('/admin/node/edit/'.$nodeTree[0]->id);
+        return redirect('/admin/node/edit/'.$entryNodeId);
     }
 }
