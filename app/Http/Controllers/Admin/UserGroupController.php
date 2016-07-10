@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\User;
 use App\UserGroup;
+use App\NodeClass;
+use App\NodeClassGroup;
 use Illuminate\Hashing\BcryptHasher;
 
 use App\Http\Controllers\Controller;
@@ -26,17 +28,38 @@ class UserGroupController extends Controller
 
     public function addGroup()
     {
-        $user = new UserGroup;
-        $user->name = "Neue Gruppe";
-        $user->save();
+        $userGroup = new UserGroup;
+        $userGroup->name = "Neue Gruppe";
+        $userGroup->allowed_classes = array("all");
+        $userGroup->entry_node_id = -1;
+        $userGroup->save();
 
-        return redirect("/admin/usergroup/edit/" . $user->id);
+        return redirect("/admin/usergroup/edit/" . $userGroup->id);
     }
 
     public function editGroup($id)
     {
         $data = array();
         $data["group"] = UserGroup::find($id);
+
+        $groupedNodeClasses = array();
+        $nodeClasses = NodeClass::all();
+        foreach($nodeClasses as $nodeClass){
+            $nodeClassGroup = NodeClassGroup::find($nodeClass->group_id);
+
+            if( ! isset($groupedNodeClasses[$nodeClassGroup->id]) ){
+                $groupedNodeClasses[$nodeClassGroup->id] = (object)array(
+                    "group" => $nodeClassGroup,
+                    "items" => array()
+                );
+            }
+
+            $groupedNodeClasses[$nodeClassGroup->id]->items[] = $nodeClass;
+        }
+
+        ksort($groupedNodeClasses);
+
+        $data["groupedNodeClasses"] = $groupedNodeClasses;
 
         return view("/admin/usergroup/edit", $data);
     }
@@ -46,6 +69,12 @@ class UserGroupController extends Controller
         $group = UserGroup::find($id);
         $group->name = $request->input("name");
         $group->entry_node_id = $request->input("entry_node_id");
+
+        if( ! is_numeric($group->entry_node_id) ){
+            $group->entry_node_id = -1;
+        }
+
+        $group->allowed_classes = $request->input("allowed_classes");
 
         $group->create_user = $request->input("create_user");
         $group->create_group = $request->input("create_group");

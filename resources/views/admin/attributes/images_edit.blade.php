@@ -21,11 +21,3 @@
         
     <input type="file" name="file_{{$attribute->id}}_{{$locale}}" class="form-control" value="" />
 </div>
- <script>
-    $( ".sortable-images-{{$attribute->id}}-{{$locale}}" ).sortable({
-        revert: true,
-        stop: function(){
-            
-        }
-    });
-</script>

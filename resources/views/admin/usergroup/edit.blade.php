@@ -220,9 +220,9 @@
 
                         <div id="selectbox-config-entry-node" style="background: #f4f4f4;padding: 15px;border-radius: 3px">
                             <p>
-                                <b id="object-relation-name-entry-node">{{ $group->entry_node_id ? App\Node::find($group->entry_node_id)->name : "Kein Objekt ausgewählt!" }}</b> 
+                                <b id="object-relation-name-entry-node">{{ $group->entry_node_id !== -1 ? App\Node::find($group->entry_node_id)->name : "Kein Objekt ausgewählt!" }}</b> 
                                 &nbsp;
-                                <b style="cursor:pointer;color:red; {{ ! $group->entry_node_id ? "display:none" : "" }}" class="object-browser-delete" data-input-name="object-relation-name-entry-node" data-input-id="object-relation-entry-node" >&times;</b>
+                                <b style="cursor:pointer;color:red; {{ $group->entry_node_id === -1 ? "display:none" : "" }}" class="object-browser-delete" data-input-name="object-relation-name-entry-node" data-input-id="object-relation-entry-node" >&times;</b>
                             </p>
                             <a href="javascript:;" class="btn btn-default btn-xs object-browser" data-modal-id="edit-modal-entry-node" data-input-id="object-relation-entry-node" data-input-name="object-relation-name-entry-node">Objekt auswählen...</a>
 
@@ -235,7 +235,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav" style="background:#2c3e50">
-                                                @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => true, "selectedNode" => $group->entry_node_id))
+                                                @include("admin/layouts/tree", array("nodes" => \App\TreeHelper::generate(0), "isRoot" => true, "isModal" => true, "selectedNode" => $group->entry_node_id))
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -247,6 +247,21 @@
                         </div>
 
 
+                    </div>
+
+
+            
+                    <div class="form-group">
+                        <label>Erlaubte Klassen</label>
+                        <select multiple name="allowed_classes[]" class="form-control" size="10">
+                            <option value="all" {{ (in_array("all",$group->allowed_classes) || !count($group->allowed_classes) ? 'selected="selected"' : '')}} >- Alle -</option>
+                            @foreach($groupedNodeClasses as $nodeClasses)
+                                <option disabled="disabled">{{$nodeClasses->group->name}}</option>
+                                @foreach($nodeClasses->items as $nodeClass)
+                                    <option value="{{$nodeClass->id}}" {{ (in_array($nodeClass->id,$group->allowed_classes) ? 'selected="selected"' : '') }}>&nbsp; &nbsp; &nbsp; {{$nodeClass->name}}</option>
+                                @endforeach
+                            @endforeach
+                        </select>
                     </div>
 
                 </div>

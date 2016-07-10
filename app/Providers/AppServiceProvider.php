@@ -8,6 +8,8 @@ use App\Node;
 use App\TreeHelper;
 use App\NodeHelper;
 use Config;
+use Route;
+use Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,13 +18,13 @@ class AppServiceProvider extends ServiceProvider
     {
         
         parent::boot($events);
-
+/*
         $nodeTree = TreeHelper::generate();
         view()->share('nodeTree', $nodeTree);
 
         $node = NodeHelper::getSystemNode("settings");
 
-        view()->share('locale_id', Config::get('app.locale_id'));
+        view()->share('locale_id', Config::get('app.locale_id'));*/
     }
 
     public function register()

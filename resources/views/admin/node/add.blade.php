@@ -20,7 +20,9 @@
                     <label>Klasse</label>
                     <select name="class_id" class="form-control">
                         @foreach($nodeClasses as $nodeClass)
-                            <option value="{{$nodeClass->id}}">{{$nodeClass->name}}</option>
+                            @if( \App\PermissionHelper::allowedClass($nodeClass->id) && (in_array("all",$parentNode->class->allowed_child_classes) || in_array($nodeClass->id, $parentNode->class->allowed_child_classes) ) )
+                                <option value="{{$nodeClass->id}}">{{$nodeClass->name}}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

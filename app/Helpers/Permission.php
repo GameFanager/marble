@@ -24,4 +24,12 @@ class PermissionHelper{
 
         return $group->entry_node_id;
     }
+
+    public static function allowedClass($classId)
+    {
+        $user = Auth::user();
+        $group = UserGroup::find($user->group_id);
+
+        return in_array($classId, $group->allowed_classes) || in_array("all", $group->allowed_classes);
+    }
 }

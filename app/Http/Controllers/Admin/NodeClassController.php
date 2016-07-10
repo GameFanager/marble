@@ -47,6 +47,7 @@ class NodeClassController extends Controller
     {
         $nodeClass = new NodeClass;
         $nodeClass->name = "Neue Klasse";
+        $nodeClass->allowed_child_classes = array("all");
         $nodeClass->save();
 
         $nameClassAttribute = new ClassAttribute;
@@ -81,6 +82,25 @@ class NodeClassController extends Controller
         $data["nodeClass"] = $nodeClass;
         $data["nodeClassGroups"] = $nodeClassGroups;
         
+        $groupedNodeClasses = array();
+        $nodeClasses = NodeClass::all();
+        foreach($nodeClasses as $nodeClass){
+            $nodeClassGroup = NodeClassGroup::find($nodeClass->group_id);
+
+            if( ! isset($groupedNodeClasses[$nodeClassGroup->id]) ){
+                $groupedNodeClasses[$nodeClassGroup->id] = (object)array(
+                    "group" => $nodeClassGroup,
+                    "items" => array()
+                );
+            }
+
+            $groupedNodeClasses[$nodeClassGroup->id]->items[] = $nodeClass;
+        }
+
+        ksort($groupedNodeClasses);
+
+        $data["groupedNodeClasses"] = $groupedNodeClasses;
+
         return view('admin/nodeclass/edit', $data);
     }
     
@@ -94,6 +114,7 @@ class NodeClassController extends Controller
         $nodeClass->list_children = $request->input("list_children");
         $nodeClass->group_id = $request->input("group_id");
         $nodeClass->locked = $request->input("locked");
+        $nodeClass->allowed_child_classes = $request->input("allowed_child_classes");
         $nodeClass->save();
         
         return redirect("/admin/nodeclass/list");
@@ -107,6 +128,12 @@ class NodeClassController extends Controller
 
         foreach($classAttributes as $classAttribute){
             ClassAttribute::destroy($classAttribute->id);
+        }
+        
+        $classAttributeGroups = ClassAttributeGroup::where(array("class_id" => $id))->get();
+
+        foreach($classAttributeGroups as $classAttribute){
+            ClassAttributeGroup::destroy($classAttribute->id);
         }
 
         return redirect("/admin/nodeclass/list");

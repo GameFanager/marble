@@ -31,7 +31,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav" style="background:#2c3e50">
-                        @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => true, "selectedNode" => $attribute->value[$locale]))
+                        @include("admin/layouts/tree", array("nodes" => \App\TreeHelper::generate(), "isRoot" => true, "isModal" => true, "selectedNode" => $attribute->value[$locale]))
                     </div>
                 </div>
                 <div class="modal-footer">

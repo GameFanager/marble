@@ -44,7 +44,7 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    {!! $attribute->class->renderEdit($locale_id)!!}
+                                    {!! $attribute->class->renderEdit(Config::get("app.locale_id"))!!}
                                 @endif
                             </div>
 
@@ -70,11 +70,13 @@
             <header class="main-box-header clearfix">
                 <h2>
                     <div class="pull-left">Kinder</div>
-                    <div class="pull-right">
-                        <a href="{{url("admin/node/add/" . $node->id)}}" class="btn btn-info btn-xs">
-                            Unterobjekt einfügen
-                        </a>
-                    </div>
+                    @if($node->class->allow_children)
+                        <div class="pull-right">
+                            <a href="{{url("admin/node/add/" . $node->id)}}" class="btn btn-info btn-xs">
+                                Unterobjekt einfügen
+                            </a>
+                        </div>
+                    @endif
                     <div class="clearfix"></div>
                 </h2>
             </header>
@@ -88,7 +90,8 @@
                             </tr>
                         </thead>
                         <tbody id="sortable-children"> 
-                            @foreach($childNodes as $childNode)
+                            @foreach($childNodes as $childNode) 
+                                @continue( ! \App\PermissionHelper::allowedClass($childNode->class->id))
                                 <tr data-node-id="{{$childNode->id}}">
                                     <td>
                                         <a href="{{ url("admin/node/edit/" . $childNode->id) }}"><i class="fa fa-{{$childNode->class->icon}}" ></i> {{$childNode->name}}</a>
@@ -229,7 +232,7 @@
 
         $(".images-delete").click(function(){
             var $parent = $(this).parent(),
-                $inputElement = $parent.parent().find('input[type="hidden"]'),
+                $inputElement = $parent.parent().parent().find('input[type="hidden"]'),
                 key = $(this).data("key");
             
             if($inputElement.val() == "noop"){

@@ -47,7 +47,7 @@ class RouteHelper{
 
         foreach($nodes as $node){
 
-            if( ! isset($node->attributes->slug) ){
+            if( ! isset($node->attributes->slug) || ! $node->attributes->slug->value[$language->id] ){
                 continue;
             }
 

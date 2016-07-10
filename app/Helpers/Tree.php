@@ -3,29 +3,46 @@
 namespace App;
 
 use Config;
+use App\PermissionHelper;
 
 class TreeHelper{
-    public static function generate()
+    private static $tree = array();
+
+    public static function generate($forcedEntryNodeId = null)
     {
 
-        // Auth::user not instantiated at this point...
-        $entryNodeId = 1; //PermissionHelper::entryNodeId();
+        if( $forcedEntryNodeId !== null ){
+            $entryNodeId = $forcedEntryNodeId;
+        }else{
+            $entryNodeId = PermissionHelper::entryNodeId();
+        }
 
-        if( ! $entryNodeId ){
+
+        if( isset(self::$tree[$entryNodeId]) ){
+            return self::$tree[$entryNodeId];
+        }
+
+        if( $entryNodeId === -1 ){
             $entryNodeId = Config::get("app.entry_node_id");
         }
 
-        return self::getChildren($entryNodeId);
+        self::$tree[$entryNodeId] = self::getChildren($entryNodeId);
+
+        return self::$tree[$entryNodeId];
     }
 
     private static function getChildren($parentId)
     {
-        $children = Node::where(array("parent_id" => $parentId))->get()->sortBy(function($node){
+        $children = array();
+        $allChildren = Node::where(array("parent_id" => $parentId))->get()->sortBy(function($node){
             return $node->sort_order;
         });
 
-        foreach($children as &$child){
-            $child->children = self::getChildren($child->id);
+        foreach($allChildren as $child){
+            if( PermissionHelper::allowedClass($child->class->id) ){
+                $child->children = self::getChildren($child->id);
+                $children[] = $child;
+            }
         }
 
         return $children;

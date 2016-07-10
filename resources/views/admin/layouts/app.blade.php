@@ -44,7 +44,7 @@
                     <div class="nav-no-collapse navbar-left pull-left hidden-sm hidden-xs">
                         <ul class="nav navbar-nav pull-left">
                             <li>
-                                <a class="btn" href="admin/dashboard">
+                                <a class="btn" href="{{url("admin/dashboard")}}">
                                     <i class="fa fa-dashboard">
                                     </i>
                                     <span>Dashboard</span>
@@ -101,7 +101,7 @@
                             <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
 
 
-                                @include("admin/layouts/tree", array("nodes" => $nodeTree, "isRoot" => true, "isModal" => false, "selectedNode" => isset($node) ? $node->id : -1))
+                                @include("admin/layouts/tree", array("nodes" => \App\TreeHelper::generate(), "isRoot" => true, "isModal" => false, "selectedNode" => isset($node) ? $node->id : -1))
 
 
                             </div>

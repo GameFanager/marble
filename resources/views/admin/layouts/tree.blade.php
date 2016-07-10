@@ -13,7 +13,7 @@
                 <a href="{{url("/admin/node/edit/". $node->id)}}" class="{{ count($node->children) ? "dropdown-toggle" : "" }}">
             @endif
                 <i class="fa fa-{{$node->class->icon}}" ></i>
-                <span>{{$node->attributes->name->value[$locale_id]}}</span>
+                <span>{{$node->name}}</span>
             </a>
 
             @include("admin/layouts/tree", array("nodes" => $node->children, "isRoot" => false, "isModal" => $isModal))

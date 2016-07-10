@@ -43,4 +43,14 @@ class NodeClass extends Model
         
         return $attributes;
     }
+
+    public function getAllowedChildClassesAttribute()
+    {
+        return unserialize($this->attributes["allowed_child_classes"]);
+    }
+
+    public function setAllowedChildClassesAttribute($value)
+    {
+        $this->attributes["allowed_child_classes"] = serialize($value);
+    }
 }

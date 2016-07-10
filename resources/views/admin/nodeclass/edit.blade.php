@@ -86,6 +86,20 @@
                         @endforeach
                     </select>
                 </div>
+
+
+                <div class="form-group">
+                    <label>Erlaubte Kind-Klassen</label>
+                    <select multiple name="allowed_child_classes[]" class="form-control" size="10">
+                        <option value="all" {{ (in_array("all",$nodeClass->allowed_child_classes) ? 'selected="selected"' : '')}} >- Alle -</option>
+                        @foreach($groupedNodeClasses as $nodeClasses)
+                            <option disabled="disabled">{{$nodeClasses->group->name}}</option>
+                            @foreach($nodeClasses->items as $item)
+                                <option value="{{$item->id}}" {{ (in_array($item->id,$nodeClass->allowed_child_classes) ? 'selected="selected"' : '') }}>&nbsp; &nbsp; &nbsp; {{$item->name}}</option>
+                            @endforeach
+                        @endforeach
+                    </select>
+                </div>
             
             
                 <div class="form-group">

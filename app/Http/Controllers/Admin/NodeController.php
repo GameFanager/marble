@@ -166,12 +166,25 @@ class NodeController extends Controller
     {
         $node = Node::find($id);
 
+        $languages = Language::all();
         $attributeValues = $request->input("attributes");
         $attributes = $node->attributes;
         
         $nodeTranslations = NodeTranslation::where(array(
             "node_id" => $id
         ))->get();
+
+        $nodeClassAttributes = NodeClassAttribute::where(array("node_id" => $id))->get();
+
+        foreach($nodeClassAttributes as $nodeClassAttribute){
+            if( ! isset($attributeValues[$nodeClassAttribute->id]) ){
+                $attributeValues[$nodeClassAttribute->id] = array();
+                
+                foreach($languages as $language){
+                    $attributeValues[$nodeClassAttribute->id][$language->id] = "";
+                }
+            }
+        }
 
         foreach($attributeValues as $nodeClassAttributeId => $values){
 

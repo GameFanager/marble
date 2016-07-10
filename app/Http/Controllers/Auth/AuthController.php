@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
+use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -15,10 +16,12 @@ class AuthController extends Controller
     protected $redirectTo = '/admin/dashboard';
     protected $loginPath = '/admin/auth/login';
     protected $redirectPath = '/admin/dashboard';
+
+    protected $loginView = '/admin/auth/login';
     
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware($this->guestMiddleware(), ['except' => ['logout', 'getLogout']]);
     }
 
     /**
@@ -49,10 +52,5 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-    }
-
-    public function getLogin()
-    {
-        return view('admin/auth/login');
     }
 }

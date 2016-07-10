@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get("/admin/dashboard", "Admin\DashboardController@viewDashboard");
 
 Route::get("/admin/node/edit/{id}", "Admin\NodeController@editNode");
 Route::get("/admin/node/add/{id}", "Admin\NodeController@addNode");
