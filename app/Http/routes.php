@@ -59,4 +59,7 @@ Route::get('/admin/usergroup/delete/{id}', "Admin\UserGroupController@deleteGrou
 
 Route::get('/', 'FrontController@redirectLocale');
 
+Route::get('/image/{filename}', 'ImageController@viewImage');
+Route::get('/image/{width}/{height}/{filename}', 'ImageController@resizeImage');
+
 App\RouteHelper::generate();

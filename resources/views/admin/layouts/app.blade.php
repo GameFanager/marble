@@ -18,6 +18,16 @@
 
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/jquery.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/jquery-ui.js') }}"></script>
+
+
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/objectbrowser.js') }}"></script>
+
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/attributes.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/images_edit.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/image_edit.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_edit.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_list_edit.js') }}"></script>
+
         <script>
             $.ajaxSetup({
                 headers: {

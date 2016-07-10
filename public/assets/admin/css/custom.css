@@ -195,3 +195,48 @@
     transition: all 0.15s ease-in-out 0s;
     cursor: pointer;
 }
+
+.attribute-container{
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 3px;
+}
+
+.object-relation-card,
+.image-card{
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.image-card{
+    max-width: 219px;
+}
+
+.image-card img{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.object-relation-card .delete,
+.image-card .delete{
+    cursor: pointer;
+    color: red;
+    font-size: 20px;
+    line-height: 10px;
+    vertical-align: middle;
+}
+
+
+.image-card .delete{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.object-relation-card .delete{
+    margin-left: 10px;
+}

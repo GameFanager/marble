@@ -8,7 +8,7 @@
     @foreach($nodes as $node)
         <li class="open {{ $node->id == $selectedNode ? "active" : ""}}">
             @if( $isModal )
-                <a href="javascript:;" class="{{ count($node->children) ? "dropdown-toggle" : "" }}" data-node-id="{{$node->id}}" data-node-name="{{$node->name}}">
+                <a href="javascript:;" class="{{ count($node->children) ? "dropdown-toggle" : "" }} object-browser-node" data-node-id="{{$node->id}}" data-node-name="{{$node->name}}">
             @else
                 <a href="{{url("/admin/node/edit/". $node->id)}}" class="{{ count($node->children) ? "dropdown-toggle" : "" }}">
             @endif

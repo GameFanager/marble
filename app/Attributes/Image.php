@@ -15,11 +15,12 @@ class Image extends Attribute
         if ($newValue !== 'noop') {
             Storage::delete($oldValue->filename);
 
-            return $newValue;
+            if ( ! $_FILES[$key]['size'] ) {
+                return $newValue;
+            }
         }
 
-        // No new image uploaded, so return current image data
-        if (!$_FILES[$key]['size']) {
+        if ( ! $_FILES[$key]['size'] ) {
             return $oldValue;
         }
 
@@ -27,7 +28,8 @@ class Image extends Attribute
 
         $file = Request::file($key);
         $extension = $file->getClientOriginalExtension();
-        $filename = $file->getFilename().'.'.$extension;
+        $filename = $file->getFilename() . '.' . $extension;
+        
         Storage::put($filename,  File::get($file));
 
         $value->original_filename = $file->getClientOriginalName();
