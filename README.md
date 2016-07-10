@@ -3,10 +3,21 @@ Marble CMS
 
 Simple, object-oriented CMS based on Laravel 5.
 
+Installation
+---
+
+* Clone the git repository and setup a vhost to the `public/` directory
+* Create a database and import the `doc/database/marble-0.3.sql`
+* copy the `.env.example` to `.env` and fill in the values
+* `composer install`
+* Go to yourpage.com/admin/auth/login and login with the username `admin@admin` and password `admin`
+* done!
+
 Documentation
 ---
 
 Work in progress.
+
 
 ### General Information
 

@@ -40,7 +40,7 @@
                                         @if(App\PermissionHelper::allowed("edit_class"))
                                             <a href="{{ url("admin/nodeclass/editgroup/" . $_nodeClassGroup->id) }}" class="btn btn-xs btn-info">Bearbeiten</a>
                                         @endif
-                                        @if(App\PermissionHelper::allowed("delete_class"))
+                                        @if(App\PermissionHelper::allowed("delete_class") && $_nodeClassGroup->id !== 0)
                                             <a href="{{ url("admin/nodeclass/deletegroup/" . $_nodeClassGroup->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="btn btn-xs btn-danger">Löschen</a>
                                         @endif
                                     </div>
