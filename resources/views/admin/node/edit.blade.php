@@ -1,5 +1,64 @@
 @extends('admin.layouts.app')
 
+@section('javascript-head')
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/attributes.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/images_edit.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/image_edit.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_edit.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_list_edit.js') }}"></script>
+@endsection
+
+
+@section('javascript')
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/language-switch.js') }}"></script>
+@endsection
+
+@section('sidebar')
+    <div class="main-box clearfix profile-box-menu">
+        <div class="main-box-body clearfix">
+            <div class="profile-box-header green-bg clearfix" style="padding:0 15px 15px">
+                <h2>{{$node->name}}</h2>
+                <div class="job-position">
+                    {{$node->class->name}}
+                </div>
+            </div>
+            <div class="profile-box-content clearfix">
+                <ul class="menu-items">
+                    @if($node->parent_id != 0)
+                        <li>
+                            <a href="{{url("admin/node/delete/" . $node->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="clearfix">
+                                <i class="fa fa-trash-o fa-lg"></i> Inhalt löschen
+                            </a>
+                        </li>
+                    @endif
+                    @if($node->class->allow_children)
+                        <li>
+                            <a href="{{url("admin/node/add/" . $node->id)}}" class="clearfix">
+                                <i class="fa fa-plus fa-lg"></i> Unterobjekt einfügen
+                            </a>
+                        </li>
+                    @endif
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-box clearfix profile-box-menu">
+        <div class="main-box-body clearfix">
+            <div class="profile-box-header gray-bg clearfix" style="padding:0 15px 15px">
+                <h2>Meta Information</h2>
+            </div>
+            <div class="profile-box-content clearfix">
+                <ul class="menu-items">
+                    <li><a href="#"><b>ID:</b> {{$node->id}}</a></li>
+                    <li><a href="#"><b>Class ID:</b> {{$node->class->id}}</a></li>
+                    <li><a href="#"><b>Parent ID:</b> {{$node->parent_id}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+@endsection
+
 @section('content')
 
     <h1>{{$node->name}}</h1>
@@ -107,25 +166,25 @@
                         </tbody>
                     </table>
 
+                    @if( count($childNodes) )
+                        <script>
+                            $( "#sortable-children" ).sortable({
+                                revert: true,
+                                stop: function(){
+                                    var $childNodes = $("#sortable-children > tr"),
+                                        sortOrder = 0,
+                                        childNodes = {};
 
-                    <script>
-                        $( "#sortable-children" ).sortable({
-                            revert: true,
-                            stop: function(){
-                                var $childNodes = $("#sortable-children > tr"),
-                                    sortOrder = 0,
-                                    childNodes = {};
+                                    $childNodes.each(function(){
+                                        childNodes[$(this).data("node-id")] = sortOrder++;
 
-                                $childNodes.each(function(){
-                                    childNodes[$(this).data("node-id")] = sortOrder++;
-
-                                });
-                                
-                                $.post("/admin/node/sort", {nodes:childNodes});
-                            }
-                        });
-                    </script>
-                    @if( ! count($childNodes) )
+                                    });
+                                    
+                                    $.post("/admin/node/sort", {nodes:childNodes});
+                                }
+                            });
+                        </script>
+                    @else
                         <center><i>Keine Kindelemente verfügbar...</i></center>
                         <br />
                     @endif
@@ -134,146 +193,4 @@
         </div>
     @endif
 
-    <div class="modal fade" id="object-browser-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Objekt auswählen...</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav" style="background:#2c3e50">
-                        @include("admin/layouts/tree", array("nodes" => \App\TreeHelper::generate(), "isRoot" => true, "isModal" => true, "selectedNode" => null))
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Abbrechen</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
-    <script>
-        $(".object-browser").click(function(){
-            var id = $(this).data("modal-id"),
-                inputId = $(this).data("input-id"),
-                nameId = $(this).data("input-name"),
-                $modal = $("#" + id);
-                
-            $modal.modal("show");
-            
-            $modal.find("[data-node-id]").click(function(){
-                var nodeId = $(this).data("node-id"),
-                    nodeName = $(this).data("node-name");
-                
-                $("#" + nameId).text(nodeName);
-                $("#" + inputId).val(nodeId);
-                
-                $modal.parent().find(".object-browser-delete").show();
-                
-                $modal.modal("hide");
-            });
-        });
-        
-        $(".object-browser-list").click(function(){
-            var attributeId = $(this).data("attribute-id"),
-                locale = $(this).data("locale"),
-                $modal = $("#edit-modal-" + attributeId + "-" + locale);
-                
-            $modal.modal("show");
-        });
-
-        $(".object-browser-list").each(function(){
-            var attributeId = $(this).data("attribute-id"),
-                locale = $(this).data("locale"),
-                $modal = $("#edit-modal-" + attributeId + "-" + locale),
-                $inputContainer = $("#object-relation-list-inputs-" + attributeId + "-" + locale),
-                $nameContainer = $("#object-relation-list-names-" + attributeId + "-" + locale);
-                
-            $modal.find("[data-node-id]").on("click", function(){
-                var nodeId = $(this).data("node-id"),
-                    nodeName = $(this).data("node-name"),
-                    index = $inputContainer.find("input").length + 1;
-                
-                $("#object-relation-list-empty-input-" + attributeId + "-" + locale).remove();
-                $("#object-relation-list-no-items-" + attributeId + "-" + locale).hide();
-
-                
-                $inputContainer.append(
-                    '<input type="hidden" name="attributes[' + attributeId + '][' + locale + '][]" id="object-relation-list-input-' + attributeId + '-' + locale + '-' + index + '" value="' + nodeId + '" />'
-                );
-                $nameContainer.append(
-                    '<p id="object-relation-list-name-' + attributeId + '-' + locale + '-' + index + '">' +
-                        '<b>' + nodeName + '</b> ' +
-                        ' &nbsp; ' +
-                        '<b style="cursor:pointer;color:red;" class="object-browser-list-delete" data-attribute-id="' + attributeId + '" data-locale="' + locale + '" data-index="' + index + '">&times;</b>' +
-                    '</p>'
-                );
-                
-                $modal.modal("hide");
-            });
-        });
-
-        
-        $(".object-browser-delete").click(function(){
-            var inputId = $(this).data("input-id"),
-                nameId = $(this).data("input-name");
-            
-            $("#" + inputId).val("");
-            $("#" + nameId).text("Kein Objekt ausgewählt!");
-            $(this).hide();
-        });
-        
-        $(document.body).on("click", ".object-browser-list-delete", function(){
-            var attributeId = $(this).data("attribute-id"),
-                locale = $(this).data("locale"),
-                index = $(this).data("index"),
-                $input = $("#object-relation-list-input-" + attributeId + "-" + locale + "-" + index),
-                $name = $("#object-relation-list-name-" + attributeId + "-" + locale + "-" + index),
-                $parent = $input.parent();
-            
-            if( $parent.find("input").length == 1 ){
-                $("#object-relation-list-no-items-" + attributeId + "-" + locale).show();
-                $parent.append('<input id="object-relation-list-empty-input-' + attributeId + '-' + locale + '" type="hidden" name="attributes[' + attributeId + '][' + locale + ']" value="" />');
-            }
-
-            $input.remove();
-            $name.remove();
-        });
-
-        $(".image-delete").click(function(){
-            var $parent = $(this).parent();
-
-            $parent.html("Kein Bild ausgewählt...");
-            $parent.parent().find('input[type="hidden"]').val("");
-        });
-
-        $(".images-delete").click(function(){
-            var $parent = $(this).parent(),
-                $inputElement = $parent.parent().parent().find('input[type="hidden"]'),
-                key = $(this).data("key");
-            
-            if($inputElement.val() == "noop"){
-                $inputElement.val(key);
-            }else{
-                $inputElement.val($inputElement.val() + "," + key);
-            }
-
-            if($parent.parent().find("p").length == 1){
-                $parent.html("Keine Bilder ausgewählt...");
-            }else{
-                $parent.remove();
-            }
-        });
-
-        $(".lang-switch").click(function(){
-            var $parent = $(this).parent().parent(),
-                lang = $(this).data("lang");
-            
-            $parent.find(".lang-switch, .lang-content").removeClass("active");
-                
-            $parent.find("[data-lang=" + lang + "]").addClass("active");
-        });
-    </script>
 @endsection

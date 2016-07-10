@@ -1,10 +1,13 @@
 @extends('admin.layouts.app')
 
+@section('javascript-head')
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/attributes.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_edit.js') }}"></script>
+@endsection
+
 @section('content')
 
     <h1>{{$group->name}}</h1>
-
-
 
     <form action="{{url("admin/usergroup/save/" . $group->id) }}" enctype="multipart/form-data" method="post">
 
@@ -216,35 +219,29 @@
                     <div class="form-group">
                         <label>Entry Node</label>
                         
-                        <input type="hidden" name="entry_node_id" id="object-relation-entry-node" value="{{$group->entry_node_id}}" />
+                        <div class="attribute-container" id="object-relation-entry-node-id">
+                            <div class="attribute-object-relation-view"></div>
+                            <div class="clearfix"></div>
+                            
+                            <input type="hidden" name="entry_node_id" class="attribute-object-relation-input" value="{{$group->entry_node_id}}" />
+                            <a href="javascript:;" class="btn btn-default btn-xs attribute-object-relation-add">Objekt auswählen...</a>
 
-                        <div id="selectbox-config-entry-node" style="background: #f4f4f4;padding: 15px;border-radius: 3px">
-                            <p>
-                                <b id="object-relation-name-entry-node">{{ $group->entry_node_id !== -1 ? App\Node::find($group->entry_node_id)->name : "Kein Objekt ausgewählt!" }}</b> 
-                                &nbsp;
-                                <b style="cursor:pointer;color:red; {{ $group->entry_node_id === -1 ? "display:none" : "" }}" class="object-browser-delete" data-input-name="object-relation-name-entry-node" data-input-id="object-relation-entry-node" >&times;</b>
-                            </p>
-                            <a href="javascript:;" class="btn btn-default btn-xs object-browser" data-modal-id="edit-modal-entry-node" data-input-id="object-relation-entry-node" data-input-name="object-relation-name-entry-node">Objekt auswählen...</a>
-
-                            <div class="modal fade" id="edit-modal-entry-node">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title">Objekt auswählen...</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav" style="background:#2c3e50">
-                                                @include("admin/layouts/tree", array("nodes" => \App\TreeHelper::generate(0), "isRoot" => true, "isModal" => true, "selectedNode" => $group->entry_node_id))
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Abbrechen</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
                         </div>
+                        <script>
+                            ;(function(){
+
+                                var container = Attributes.ObjectRelation.register("object-relation-entry-node-id");
+
+                                @if($group->entry_node_id !== -1)
+                                    container.setNode({
+                                        id: '{{$group->entry_node_id}}',
+                                        name: '{{App\Node::find($group->entry_node_id)->name}}'
+                                    });
+                                @endif
+
+                            })();
+                        </script>
+
 
 
                     </div>
@@ -276,40 +273,7 @@
             <input type="submit" class="btn btn-success" value="Speichern" />
         </div>
         <div class="clearfix"></div>
-        <br /><br /><br />
+
     </form>
-
-
-    <script>
-         $(".object-browser").click(function(){
-            var id = $(this).data("modal-id"),
-                inputId = $(this).data("input-id"),
-                nameId = $(this).data("input-name"),
-                $modal = $("#" + id);
-                
-            $modal.modal("show");
-            
-            $modal.find("[data-node-id]").click(function(){
-                var nodeId = $(this).data("node-id"),
-                    nodeName = $(this).data("node-name");
-                
-                $("#" + nameId).text(nodeName);
-                $("#" + inputId).val(nodeId);
-                
-                $modal.parent().find(".object-browser-delete").show();
-                
-                $modal.modal("hide");
-            });
-        });
-
-        $(".object-browser-delete").click(function(){
-            var inputId = $(this).data("input-id"),
-                nameId = $(this).data("input-name");
-            
-            $("#" + inputId).val("");
-            $("#" + nameId).text("Kein Objekt ausgewählt!");
-            $(this).hide();
-        });
-    </script>
 
 @endsection

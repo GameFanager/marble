@@ -20,13 +20,9 @@
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/jquery-ui.js') }}"></script>
 
 
-        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/objectbrowser.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/object-browser.js') }}"></script>
 
-        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/attributes.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/images_edit.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/image_edit.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_edit.js') }}"></script>
-        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_list_edit.js') }}"></script>
+        @yield("javascript-head")
 
         <script>
             $.ajaxSetup({
@@ -128,102 +124,11 @@
                         <div class="col-lg-3">
                             <h1>&nbsp;</h2>
 
+                            @yield('sidebar')
+
                             @if( isset($nodeClass) and isset($classAttributeGroups) )
-                                <div class="main-box clearfix profile-box-menu">
-                                    <div class="main-box-body clearfix">
-                                        <div class="profile-box-header gray-bg clearfix" style="padding:0 15px 15px">
-                                            <h2>Attribut Gruppen</h2>
-                                            <div class="job-position">
-                                                {{$nodeClass->name}}
-                                            </div>
-                                        </div>
-                                        <div class="profile-box-content clearfix">
-                                            <ul class="menu-items" id="class-attribute-groups">
-                                                @foreach($classAttributeGroups as $classAttributeGroup)
-                                                    <li class="more" data-group-id="{{$classAttributeGroup->id}}">
-                                                        <div class="pull-left">
-                                                            <i class="fa fa-folder-open-o fa-lg"></i> {{$classAttributeGroup->name}}
-                                                        </div>
-                                                        <a style="display:inline-block" href="{{url("admin/nodeclass/deleteattributegroup/" . $nodeClass->id . "/" . $classAttributeGroup->id)}}" class="btn pull-right btn-danger btn-xs">
-                                                            löschen
-                                                        </a>
-                                                        <div class="clearfix"></div>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                            <ul class="menu-items">
-                                                <li>
-                                                    <a data-modal-id="add-attribute-group-modal" href="javascript:$('#add-attribute-group-modal').modal('show')" class="clearfix" class="add-attribute-group">
-                                                        <i class="fa fa-plus fa-lg"></i> Gruppe hinzufügen
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <script>
-                                    $( "#class-attribute-groups" ).sortable({
-                                        revert: true,
-                                        stop: function(){
-                                            var classAttributeGroups = {},
-                                                i = 0;
-
-                                            $("#class-attribute-groups > li").each(function(){
-                                                classAttributeGroups[$(this).data("group-id")] = i++;
-                                            });
-
-                                            $.post("/admin/nodeclass/sortattributegroups/{{$nodeClass->id}}", {groups:classAttributeGroups});
-                                        }
-                                    });
-                                </script>
+                                
                             @endif
-                            
-                            @if( isset($node) )
-
-                                <div class="main-box clearfix profile-box-menu">
-                                    <div class="main-box-body clearfix">
-                                        <div class="profile-box-header green-bg clearfix" style="padding:0 15px 15px">
-                                            <h2>{{$node->name}}</h2>
-                                            <div class="job-position">
-                                                {{$node->class->name}}
-                                            </div>
-                                        </div>
-                                        <div class="profile-box-content clearfix">
-                                            <ul class="menu-items">
-                                                @if($node->parent_id != 0)
-                                                    <li>
-                                                        <a href="{{url("admin/node/delete/" . $node->id) }}" onclick="return confirm('Objekt wirklich löschen?');" class="clearfix">
-                                                            <i class="fa fa-trash-o fa-lg"></i> Inhalt löschen
-                                                        </a>
-                                                    </li>
-                                                @endif
-                                                @if($node->class->allow_children)
-                                                    <li>
-                                                        <a href="{{url("admin/node/add/" . $node->id)}}" class="clearfix">
-                                                            <i class="fa fa-plus fa-lg"></i> Unterobjekt einfügen
-                                                        </a>
-                                                    </li>
-                                                @endif
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="main-box clearfix profile-box-menu">
-                                    <div class="main-box-body clearfix">
-                                        <div class="profile-box-header gray-bg clearfix" style="padding:0 15px 15px">
-                                            <h2>Meta Information</h2>
-                                        </div>
-                                        <div class="profile-box-content clearfix">
-                                            <ul class="menu-items">
-                                                <li><a href="#"><b>ID:</b> {{$node->id}}</a></li>
-                                                <li><a href="#"><b>Class ID:</b> {{$node->class->id}}</a></li>
-                                                <li><a href="#"><b>Parent ID:</b> {{$node->parent_id}}</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif 
 
                         </div>
                     </div>
@@ -232,16 +137,33 @@
         </div>
         
 
+        <div class="modal fade" id="object-browser-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Objekt auswählen...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav" style="background:#2c3e50">
+                            @include("admin/layouts/tree", array("nodes" => \App\TreeHelper::generate(), "isRoot" => true, "isModal" => true, "selectedNode" => null))
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Abbrechen</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.datepicker.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/scripts.js') }}"></script>
-        
-
         <script type="text/javascript" src="{{ URL::asset('assets/admin/ckeditor/ckeditor.js') }}"></script>
+
+        @yield("javascript")
+
         <script type="text/javascript">
-    		
-            
-            
             $(".datepicker").datepicker();
         </script>
 	</body>
