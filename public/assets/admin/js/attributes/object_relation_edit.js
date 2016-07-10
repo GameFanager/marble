@@ -55,30 +55,22 @@
 
         this.$add.click(function(){
             
-            this.openObjectBrowser();
+            ObjectBrowser.open(function(node){
+
+                this.setNode(node);
+
+            }.bind(this));
 
         }.bind(this));
 
     };
-
-    ObjectRelationContainer.prototype.openObjectBrowser = function(){
-
-        var browser = new ObjectBrowser;
-
-        browser.open(function(node){
-
-            this.setNode(node);
-
-        }.bind(this));
-
-    };
-
+    
     ObjectRelationContainer.prototype.removeNode = function(){
 
         this.node = null;
         this.$input.val("");
         this.renderView();
-        
+
     };
 
     ObjectRelation.register = function(containerId){

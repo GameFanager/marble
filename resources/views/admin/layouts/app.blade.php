@@ -152,9 +152,9 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Abbrechen</button>
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                </div>
+            </div>
+        </div>
 
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.datepicker.js') }}"></script>
@@ -164,7 +164,11 @@
         @yield("javascript")
 
         <script type="text/javascript">
+
+            ObjectBrowser.init();
+            
             $(".datepicker").datepicker();
+
         </script>
 	</body>
 </html>

@@ -61,20 +61,12 @@
         }.bind(this));
 
         this.$add.click(function(){
-            
-            this.openObjectBrowser();
 
-        }.bind(this));
+            ObjectBrowser.open(function(node){
 
-    };
+                this.addNode(node);
 
-    ObjectRelationListContainer.prototype.openObjectBrowser = function(){
-
-        var browser = new ObjectBrowser;
-
-        browser.open(function(node){
-
-            this.addNode(node);
+            }.bind(this));
 
         }.bind(this));
 
