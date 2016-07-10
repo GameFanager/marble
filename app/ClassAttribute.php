@@ -16,10 +16,10 @@ class ClassAttribute extends Model
 
     public function getClassAttribute()
     {
-        $classNameParts = explode("_", $this->type->named_identifier);
+        $classNameParts = explode('_', $this->type->named_identifier);
         $className = '\App\Attributes\\';
 
-        foreach($classNameParts as $classNamePart){
+        foreach ($classNameParts as $classNamePart) {
             $className .= ucfirst($classNamePart);
         }
 
@@ -28,13 +28,13 @@ class ClassAttribute extends Model
 
     public function getConfigurationAttribute()
     {
-        if($this->attributes["configuration"]){
-            return unserialize($this->attributes["configuration"]);
+        if ($this->attributes['configuration']) {
+            return unserialize($this->attributes['configuration']);
         }
     }
 
     public function setConfigurationAttribute($value)
     {
-        $this->attributes["configuration"] = serialize($value);
+        $this->attributes['configuration'] = serialize($value);
     }
 }

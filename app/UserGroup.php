@@ -11,11 +11,11 @@ class UserGroup extends Authenticatable
 
     public function getAllowedClassesAttribute()
     {
-        return unserialize($this->attributes["allowed_classes"]);
+        return unserialize($this->attributes['allowed_classes']);
     }
 
     public function setAllowedClassesAttribute($value)
     {
-         $this->attributes["allowed_classes"] = serialize($value);
+        $this->attributes['allowed_classes'] = serialize($value);
     }
 }

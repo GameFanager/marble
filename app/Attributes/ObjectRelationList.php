@@ -8,8 +8,8 @@ class ObjectRelationList extends Attribute
 {
     public function getValues($values)
     {
-        foreach($values as $languageId => &$value){
-            foreach($value as &$node){
+        foreach ($values as $languageId => &$value) {
+            foreach ($value as &$node) {
                 $node = Node::find($node);
             }
         }

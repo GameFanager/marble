@@ -8,7 +8,7 @@ class ObjectRelation extends Attribute
 {
     public function getValues($values)
     {
-        foreach($values as $languageId => &$value){
+        foreach ($values as $languageId => &$value) {
             $value = Node::find($value);
         }
 

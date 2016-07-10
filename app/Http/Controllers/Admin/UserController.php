@@ -1,11 +1,10 @@
 <?php
-namespace App\Http\Controllers\Admin;
+
+namespace app\Http\Controllers\Admin;
 
 use App\User;
 use App\UserGroup;
-use App\PermissionHelper;
 use Illuminate\Hashing\BcryptHasher;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -20,52 +19,50 @@ class UserController extends Controller
     {
         $data = array();
 
-        $data["users"] = User::all();
+        $data['users'] = User::all();
 
-        return view("/admin/user/list", $data);
+        return view('/admin/user/list', $data);
     }
 
     public function addUser()
     {
-        $user = new User;
-        $user->name = "Neuer Benutzer";
+        $user = new User();
+        $user->name = 'Neuer Benutzer';
         $user->save();
 
-        return redirect("/admin/user/edit/" . $user->id);
+        return redirect('/admin/user/edit/'.$user->id);
     }
 
     public function editUser($id)
     {
         $data = array();
-        $data["user"] = User::find($id);
-        $data["userGroups"] = UserGroup::all();
+        $data['user'] = User::find($id);
+        $data['userGroups'] = UserGroup::all();
 
-        return view("/admin/user/edit", $data);
+        return view('/admin/user/edit', $data);
     }
 
     public function saveUser(Request $request, $id)
     {
         $user = User::find($id);
-        $user->name = $request->input("name");
-        $user->email = $request->input("email");
-        $user->group_id = $request->input("group_id");
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->group_id = $request->input('group_id');
 
-        if( $request->input("password") ){
-            $hasher = new BcryptHasher;
-            $user->password = $hasher->make($request->input("password"));
+        if ($request->input('password')) {
+            $hasher = new BcryptHasher();
+            $user->password = $hasher->make($request->input('password'));
         }
 
         $user->save();
 
-        return redirect("/admin/user/edit/" . $id);
+        return redirect('/admin/user/edit/'.$id);
     }
 
     public function deleteUser($id)
     {
-
         User::destroy($id);
 
-        return redirect("/admin/user/list");
+        return redirect('/admin/user/list');
     }
-
 }
