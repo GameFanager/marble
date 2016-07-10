@@ -219,6 +219,7 @@
 .image-card img{
     display: block;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .object-relation-card .delete,
@@ -239,4 +240,21 @@
 
 .object-relation-card .delete{
     margin-left: 10px;
+}
+
+
+#image-editor{
+
+}
+
+#image-editor .canvas{
+    text-align: center;
+}
+
+#image-editor .canvas > img{
+    max-width: 100%;
+}
+
+.modal-full{
+    width: 98%;
 }

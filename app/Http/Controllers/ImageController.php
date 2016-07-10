@@ -11,7 +11,7 @@ class ImageController extends Controller
     public function viewImage($filename)
     {
         $image = $this->getImage($filename);
-        
+
         return $image->response();
     }
 
@@ -20,6 +20,15 @@ class ImageController extends Controller
         $image = $this->getImage($filename);
         
         $image->fit($width, $height);
+
+        return $image->response();
+    }
+
+    public function cropImage($left, $top, $width, $height, $filename)
+    {
+        $image = $this->getImage($filename);
+        
+        $image->crop($width, $height, $left, $top);
 
         return $image->response();
     }

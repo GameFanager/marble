@@ -11,6 +11,7 @@
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/elements.min.css') }}'/>
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/morris.css') }}'/>
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/jquery-ui.css') }}'/>
+        <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/cropper.css') }}'/>
         <link rel='stylesheet' href='{{ URL::asset('assets/admin/css/custom.css') }}'/>
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -21,6 +22,8 @@
 
 
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/object-browser.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/cropper.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('assets/admin/js/image-editor.js') }}"></script>
 
         @yield("javascript-head")
 
@@ -125,11 +128,6 @@
                             <h1>&nbsp;</h2>
 
                             @yield('sidebar')
-
-                            @if( isset($nodeClass) and isset($classAttributeGroups) )
-                                
-                            @endif
-
                         </div>
                     </div>
                 </div>
@@ -156,6 +154,30 @@
             </div>
         </div>
 
+
+        <div class="modal fade" id="image-editor-modal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Bild bearbeiten</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="image-editor">
+                            <div class="canvas">
+                                <img class="editor-image" />
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Abbrechen</button>
+                        <button type="button" class="btn save-image btn-success" data-dismiss="modal">Speichern</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/bootstrap.datepicker.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('assets/admin/js/scripts.js') }}"></script>
@@ -166,7 +188,8 @@
         <script type="text/javascript">
 
             ObjectBrowser.init();
-            
+            ImageEditor.init();
+
             $(".datepicker").datepicker();
 
         </script>

@@ -1,8 +1,6 @@
 ;(function(global){
     
-    var ObjectRelationList = {};
-
-    function ObjectRelationListContainer(containerId, inputName){
+    function ObjectRelationList(containerId, inputName){
 
         this.$container = $("#" + containerId);
         this.$view = this.$container.find(".attribute-object-relation-list-view");
@@ -17,14 +15,14 @@
 
     };
 
-    ObjectRelationListContainer.prototype.addNode = function(node){
+    ObjectRelationList.prototype.addNode = function(node){
 
         this.nodes.push(node);
         this.renderView();
 
     };
 
-    ObjectRelationListContainer.prototype.renderView = function(){
+    ObjectRelationList.prototype.renderView = function(){
 
         this.$view.html("");
         this.$inputs.html("");
@@ -52,7 +50,7 @@
 
     };
 
-    ObjectRelationListContainer.prototype.registerEventHandlers = function(){
+    ObjectRelationList.prototype.registerEventHandlers = function(){
 
         this.$container.on("click", ".delete", function(ev){
 
@@ -72,19 +70,13 @@
 
     };
 
-    ObjectRelationListContainer.prototype.removeNode = function(index){
+    ObjectRelationList.prototype.removeNode = function(index){
         
         this.nodes.splice(index, 1);
         this.renderView();
 
     };
-
-    ObjectRelationList.register = function(containerId, inputName){
-
-        return new ObjectRelationListContainer(containerId, inputName);
-
-    };
-
+    
     global.Attributes.ObjectRelationList = ObjectRelationList;
 
 })(window);

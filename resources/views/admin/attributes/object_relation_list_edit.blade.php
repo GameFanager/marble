@@ -9,7 +9,7 @@
 <script>
     ;(function(){
 
-        var container = Attributes.ObjectRelationList.register(
+        var container = new Attributes.ObjectRelationList(
             "attribute-object-relation-list-{{$attribute->id}}-{{$locale}}", 
             'attributes[{{$attribute->id}}][{{$locale}}][]'
         );

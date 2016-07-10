@@ -4,8 +4,8 @@ namespace App\Attributes;
 
 class Attribute
 {
-    private $attribute;
-    private $classAttribute;
+    protected $attribute;
+    protected $classAttribute;
 
     public function __construct($attribute, $classAttribute = null)
     {

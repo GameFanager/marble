@@ -9,7 +9,7 @@
 <script>
     ;(function(){
 
-        var container = Attributes.ObjectRelation.register("attribute-object-relation-{{$attribute->id}}-{{$locale}}");
+        var container = new Attributes.ObjectRelation("attribute-object-relation-{{$attribute->id}}-{{$locale}}");
 
         @if($attribute->value[$locale])
             container.setNode({

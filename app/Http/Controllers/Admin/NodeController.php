@@ -21,6 +21,13 @@ class NodeController extends Controller
         $this->middleware('auth');
     }
 
+    public function ajaxAttribute(Request $request, $nodeClassAttributeId, $languageId)
+    {
+        $nodeClassAttribute = NodeClassAttribute::find($nodeClassAttributeId);
+
+        return $nodeClassAttribute->class->ajaxEndpoint($request, $languageId);
+    }
+
     public function editNode($id)
     {
         $node = Node::find($id);

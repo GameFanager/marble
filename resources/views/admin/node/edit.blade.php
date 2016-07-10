@@ -2,10 +2,10 @@
 
 @section('javascript-head')
     <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/attributes.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/images_edit.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/image_edit.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_edit.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object_relation_list_edit.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/images-edit.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/image-edit.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object-relation-edit.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('assets/admin/js/attributes/object-relation-list-edit.js') }}"></script>
 @endsection
 
 

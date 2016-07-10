@@ -13,6 +13,9 @@
 
 Route::get('/admin/dashboard', "Admin\DashboardController@viewDashboard");
 
+
+Route::post('/admin/node/ajaxattribute/{id}/{locale}', "Admin\NodeController@ajaxAttribute");
+
 Route::get('/admin/node/edit/{id}', "Admin\NodeController@editNode");
 Route::get('/admin/node/add/{id}', "Admin\NodeController@addNode");
 Route::get('/admin/node/delete/{id}', "Admin\NodeController@deleteNode");
@@ -61,5 +64,6 @@ Route::get('/', 'FrontController@redirectLocale');
 
 Route::get('/image/{filename}', 'ImageController@viewImage');
 Route::get('/image/{width}/{height}/{filename}', 'ImageController@resizeImage');
+Route::get('/image/{left}/{top}/{width}/{height}/{filename}', 'ImageController@cropImage');
 
 App\RouteHelper::generate();

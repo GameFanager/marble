@@ -5,6 +5,7 @@ namespace App\Attributes;
 use Request;
 use Storage;
 use File;
+use App\NodeTranslation;
 
 class Images extends Attribute
 {
@@ -33,10 +34,40 @@ class Images extends Attribute
 
         $value->original_filename = $file->getClientOriginalName();
         $value->filename = $filename;
-        $value->sizee = $file->getSize();
+        $value->size = $file->getSize();
+        $value->transformations = (object)array();
 
         $oldValue[] = $value;
 
         return $oldValue;
+    }
+
+    public function ajaxEndpoint($request, $languageId)
+    {
+        if( $request->input("method") == "saveTransformations" ){
+
+             $translation = NodeTranslation::where(
+                array(
+                    "node_class_attribute_id" => $this->attribute->id,
+                    "language_id" => $languageId
+                )
+            )->get()->first();
+
+            $images = unserialize($translation->value);
+
+            $index = $request->input("index");
+
+            $images[$index]->transformations = (object)$request->input("data");
+
+            foreach($images[$index]->transformations as &$transformation){
+                $transformation = (int)$transformation;
+            }
+
+            $translation->value = serialize($images);
+            $translation->save();
+
+        }
+       
+        die;
     }
 }

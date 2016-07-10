@@ -9,12 +9,18 @@
 <script>
     ;(function(){
 
-        var container = Attributes.Image.register("attribute-image-{{$attribute->id}}-{{$locale}}");
+        var image = new Attributes.Image(
+            "attribute-image-{{$attribute->id}}-{{$locale}}",
+            {{$attribute->id}},
+            {{$locale}}
+        );
 
         @if($attribute->value[$locale])
-            container.setImage({
-                filename: '{{url("/image/200/200/" . $attribute->value[$locale]->filename)}}',
-                original_filename: '{{$attribute->value[$locale]->original_filename}}'
+            image.setImage({
+                filename: '{{url("/image/" . $attribute->value[$locale]->filename)}}',
+                thumbnail_filename: '{{url("/image/200/150/" . $attribute->value[$locale]->filename)}}',
+                original_filename: '{{$attribute->value[$locale]->original_filename}}',
+                transformations: {!! json_encode($attribute->value[$locale]->transformations) !!}
             });
         @endif
 

@@ -1,35 +1,35 @@
 ;(function(global){
     
-    var Images = {};
-
-    function ImagesContainer(containerId){
+    function Images(containerId, attributeId, languageId){
 
         this.$container = $("#" + containerId);
         this.$view = this.$container.find(".attribute-images-view");
         this.$input = this.$container.find(".attribute-images-input");
         this.images = [];
         this.deleteQueue = [];
+        this.attributeId = attributeId;
+        this.languageId = languageId;
 
         this.registerEventHandlers();
         this.renderView();
 
     };
 
-    ImagesContainer.prototype.addImage = function(image){
+    Images.prototype.addImage = function(image){
 
         this.images.push(image);
         this.renderView();
 
     };
 
-    ImagesContainer.prototype.renderView = function(){
+    Images.prototype.renderView = function(){
 
         this.$view.html("");
 
         for(var i in this.images){
             this.$view.append(
                 '<div class="pull-left image-card">'+
-                    '<img src="' + this.images[i].filename + '" />' +
+                    '<img data-index="' + i  + '" src="' + this.images[i].thumbnail_filename + '" />' +
                     '<b class="filename">' + this.images[i].original_filename + '</b>' +
                     '<b class="delete" data-index="' + i + '">&times;</b>' +
                 '</div>'
@@ -46,7 +46,7 @@
 
     };
 
-    ImagesContainer.prototype.registerEventHandlers = function(){
+    Images.prototype.registerEventHandlers = function(){
 
         this.$container.on("click", ".delete", function(ev){
 
@@ -54,9 +54,33 @@
 
         }.bind(this));
 
+        this.$container.on("click", "img", function(ev){
+
+            this.editImage($(ev.currentTarget).data("index"));
+
+        }.bind(this));
+
     };
 
-    ImagesContainer.prototype.removeImage = function(index){
+    Images.prototype.editImage = function(index){
+
+        ImageEditor.done(function(transformations){
+
+            this.images[index].transformations = transformations;
+
+            $.post("/admin/node/ajaxattribute/" + this.attributeId + "/" + this.languageId, {
+                method: "saveTransformations",
+                data: this.images[index].transformations,
+                index: index
+            });
+
+        }.bind(this));
+        
+        ImageEditor.open(this.images[index]);
+
+    };
+
+    Images.prototype.removeImage = function(index){
 
         this.deleteQueue.push(this.images[index].id);
         this.images.splice(index, 1);
@@ -66,15 +90,9 @@
 
     };
 
-    ImagesContainer.prototype.updateDeleteQueue = function(){
+    Images.prototype.updateDeleteQueue = function(){
         
         this.$input.val(this.deleteQueue.join(","));
-
-    };
-
-    Images.register = function(containerId){
-
-        return new ImagesContainer(containerId);
 
     };
 

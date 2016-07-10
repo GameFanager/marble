@@ -9,13 +9,19 @@
 <script>
     ;(function(){
 
-        var container = Attributes.Images.register("attribute-images-{{$attribute->id}}-{{$locale}}");
+        var images = new Attributes.Images(
+            "attribute-images-{{$attribute->id}}-{{$locale}}",
+            {{$attribute->id}},
+            {{$locale}}
+        );
 
         @foreach($attribute->value[$locale] as $key => $imagesAttributeItem)
-            container.addImage({
+            images.addImage({
                 id: '{{$key}}',
-                filename: '{{url("/image/200/200/" . $imagesAttributeItem->filename)}}',
-                original_filename: '{{$imagesAttributeItem->original_filename}}'
+                filename: '{{url("/image/" . $imagesAttributeItem->filename)}}',
+                thumbnail_filename: '{{url("/image/200/150/" . $imagesAttributeItem->filename)}}',
+                original_filename: '{{$imagesAttributeItem->original_filename}}',
+                transformations: {!! json_encode($imagesAttributeItem->transformations) !!}
             });
         @endforeach
     })();

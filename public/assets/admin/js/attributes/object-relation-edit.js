@@ -1,8 +1,6 @@
 ;(function(global){
     
-    var ObjectRelation = {};
-
-    function ObjectRelationContainer(containerId){
+    function ObjectRelation(containerId){
 
         this.$container = $("#" + containerId);
         this.$view = this.$container.find(".attribute-object-relation-view");
@@ -16,7 +14,7 @@
 
     };
 
-    ObjectRelationContainer.prototype.setNode = function(node){
+    ObjectRelation.prototype.setNode = function(node){
 
         this.node = node;
         this.renderView();
@@ -24,7 +22,7 @@
 
     };
 
-    ObjectRelationContainer.prototype.renderView = function(){
+    ObjectRelation.prototype.renderView = function(){
 
         this.$view.html("");
 
@@ -45,7 +43,7 @@
 
     };
 
-    ObjectRelationContainer.prototype.registerEventHandlers = function(){
+    ObjectRelation.prototype.registerEventHandlers = function(){
 
         this.$container.on("click", ".delete", function(ev){
 
@@ -65,20 +63,14 @@
 
     };
     
-    ObjectRelationContainer.prototype.removeNode = function(){
+    ObjectRelation.prototype.removeNode = function(){
 
         this.node = null;
         this.$input.val("");
         this.renderView();
 
     };
-
-    ObjectRelation.register = function(containerId){
-
-        return new ObjectRelationContainer(containerId);
-
-    };
-
+    
     global.Attributes.ObjectRelation = ObjectRelation;
 
 })(window);
