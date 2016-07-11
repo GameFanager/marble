@@ -13,6 +13,33 @@
         this.registerEventHandlers();
         this.renderView();
 
+        this.$view.sortable({
+            stop: function(){
+                var $elements = this.$view.find(".image-card"),
+                    sortOrder = [],
+                    sortedImages = [];
+                
+                $elements.each(function(i, el){
+
+                    var index = $(el).find("img").data("index");
+
+                    sortOrder.push(index);
+                    sortedImages.push(this.images[index]);
+
+                }.bind(this));
+
+                this.images = sortedImages;
+
+                this.renderView();
+
+                $.post("/admin/node/ajaxattribute/" + this.attributeId + "/" + this.languageId, {
+                    method: "sort",
+                    sortOrder: sortOrder
+                });
+
+            }.bind(this)
+        });
+
     };
 
     Images.prototype.addImage = function(image){
@@ -70,7 +97,7 @@
 
             $.post("/admin/node/ajaxattribute/" + this.attributeId + "/" + this.languageId, {
                 method: "saveTransformations",
-                data: this.images[index].transformations,
+                transformations: this.images[index].transformations,
                 index: index
             });
 

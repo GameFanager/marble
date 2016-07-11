@@ -11,7 +11,9 @@
 
         var container = new Attributes.ObjectRelationList(
             "attribute-object-relation-list-{{$attribute->id}}-{{$locale}}", 
-            'attributes[{{$attribute->id}}][{{$locale}}][]'
+            'attributes[{{$attribute->id}}][{{$locale}}][]',
+            {{$attribute->id}},
+            {{$locale}}
         );
 
         @foreach($attribute->processedValue[$locale] as $key => $subNode)

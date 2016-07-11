@@ -44,29 +44,42 @@ class Images extends Attribute
 
     public function ajaxEndpoint($request, $languageId)
     {
-        if( $request->input("method") == "saveTransformations" ){
+        $translation = NodeTranslation::where(
+            array(
+                "node_class_attribute_id" => $this->attribute->id,
+                "language_id" => $languageId
+            )
+        )->get()->first();
 
-             $translation = NodeTranslation::where(
-                array(
-                    "node_class_attribute_id" => $this->attribute->id,
-                    "language_id" => $languageId
-                )
-            )->get()->first();
-
-            $images = unserialize($translation->value);
+        $images = unserialize($translation->value);
+        
+        if( $request->input("method") === "saveTransformations" ){
 
             $index = $request->input("index");
 
-            $images[$index]->transformations = (object)$request->input("data");
+            $images[$index]->transformations = (object)$request->input("transformations");
 
             foreach($images[$index]->transformations as &$transformation){
                 $transformation = (int)$transformation;
             }
 
-            $translation->value = serialize($images);
-            $translation->save();
+        }
+
+        if( $request->input("method") === "sortImages" ){
+
+            $sortOrder = $request->input("sortOrder");
+            $sortedImages = array();
+
+            foreach($sortOrder as $index){
+                $sortedImages[] = $images[$index];
+            }
+
+            $images = $sortedImages;
 
         }
+
+        $translation->value = serialize($images);
+        $translation->save();
        
         die;
     }

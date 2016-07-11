@@ -1,18 +1,47 @@
 ;(function(global){
     
-    function ObjectRelationList(containerId, inputName){
+    function ObjectRelationList(containerId, inputName, attributeId, languageId){
 
         this.$container = $("#" + containerId);
         this.$view = this.$container.find(".attribute-object-relation-list-view");
         this.$inputs = this.$container.find(".attribute-object-relation-list-inputs");
         this.$add = this.$container.find(".attribute-object-relation-list-add");
         this.inputName = inputName;
+        this.attributeId = attributeId;
+        this.languageId = languageId;
 
         this.nodes = [];
 
         this.registerEventHandlers();
         this.renderView();
 
+
+        this.$view.sortable({
+            stop: function(){
+                var $elements = this.$view.find(".object-relation-card"),
+                    sortOrder = [],
+                    sortedNodes = [];
+                
+                $elements.each(function(i, el){
+
+                    var index = $(el).data("index");
+
+                    sortOrder.push(index);
+                    sortedNodes.push(this.nodes[index]);
+
+                }.bind(this));
+
+                this.nodes = sortedNodes;
+
+                this.renderView();
+
+                $.post("/admin/node/ajaxattribute/" + this.attributeId + "/" + this.languageId, {
+                    method: "sort",
+                    sortOrder: sortOrder
+                });
+
+            }.bind(this)
+        });
     };
 
     ObjectRelationList.prototype.addNode = function(node){
@@ -26,10 +55,11 @@
 
         this.$view.html("");
         this.$inputs.html("");
+        console.log("rerender");
 
         for(var i in this.nodes){
             this.$view.append(
-                '<div class="pull-left object-relation-card">'+
+                '<div data-index="' + i + '" class="pull-left object-relation-card">'+
                     '<b class="nodename">' + this.nodes[i].name + '</b>' +
                     '<b class="delete" data-index="' + i + '">&times;</b>' +
                 '</div>'
