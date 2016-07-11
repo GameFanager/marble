@@ -65,7 +65,7 @@ class Images extends Attribute
 
         }
 
-        if( $request->input("method") === "sortImages" ){
+        if( $request->input("method") === "sort" ){
 
             $sortOrder = $request->input("sortOrder");
             $sortedImages = array();
